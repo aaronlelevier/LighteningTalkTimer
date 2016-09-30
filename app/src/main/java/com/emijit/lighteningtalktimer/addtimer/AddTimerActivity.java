@@ -1,9 +1,11 @@
-package com.emijit.lighteningtalktimer;
+package com.emijit.lighteningtalktimer.addtimer;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.emijit.lighteningtalktimer.R;
 
 public class AddTimerActivity extends AppCompatActivity {
 
@@ -20,7 +22,7 @@ public class AddTimerActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new AddTimerActivityFragment())
+                .add(R.id.container, new AddTimerFragment())
                 .commit();
     }
 
