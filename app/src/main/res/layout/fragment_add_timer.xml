@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
@@ -8,13 +8,69 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".AddTimerFragment"
-    tools:showIn="@layout/activity_main">
+    tools:context=".addtimer.AddTimerFragment"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_main"
+    >
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="I'm the Add Timer Fragment!" />
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/timer_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textSize="56sp" />
+
+        <TextView
+            android:id="@+id/timer_hours_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="h"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/timer_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textSize="56sp" />
+
+        <TextView
+            android:id="@+id/timer_minutes_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="m"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/timer_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textSize="56sp" />
+
+        <TextView
+            android:id="@+id/timer_seconds_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="s"
+            android:textSize="24sp"/>
+
+        <ImageButton
+            android:id="@+id/delete_char_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="24dp"
+            android:background="@android:color/transparent"
+
+            android:src="@drawable/ic_backspace"/>
+
+    </LinearLayout>
+
+</LinearLayout>
