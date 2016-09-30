@@ -74,118 +74,129 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/one"
-            android:text="1"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/two"
-            android:text="2"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
+            <Button
+                android:id="@+id/one"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/three"
-            android:text="3"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
+            <Button
+                android:id="@+id/two"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/four"
-            android:text="4"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/five"
-            android:text="5"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/six"
-            android:text="6"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/seven"
-            android:text="7"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/eight"
-            android:text="8"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nine"
-            android:text="9"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/zero"
-            android:text="0"
-            android:layout_weight="1"
-            style="@style/Button.CalculatorDigit"/>
+            <Button
+                android:id="@+id/three"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/four"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="4" />
+
+            <Button
+                android:id="@+id/five"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5" />
+
+            <Button
+                android:id="@+id/six"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="6" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/seven"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7" />
+
+            <Button
+                android:id="@+id/eight"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/nine"
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="9" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                style="@style/Button.CalculatorDigit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/zero"
+                android:layout_gravity="center_horizontal"
+                android:text="0" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
