@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.emijit.lighteningtalktimer.R;
 
-public class AddTimerActivity extends AppCompatActivity implements AddTimerFragment.Callback {
+public class AddTimerActivity extends AppCompatActivity implements TimerContract.AddTimerCallback {
 
     private Toolbar mToolbar;
 
@@ -23,8 +23,16 @@ public class AddTimerActivity extends AppCompatActivity implements AddTimerFragm
     }
 
     @Override
-    public void setToolbarTitle(String string) {
-        mToolbar.setTitle(string);
+    public void forwardToSetInterval() {
+        mToolbar.setTitle(getString(R.string.title_set_timer_interval));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new SetIntervalFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
+    @Override
+    public void setToolbarTitle() {
+        mToolbar.setTitle(getString(R.string.title_activity_add_timer));
+    }
 }

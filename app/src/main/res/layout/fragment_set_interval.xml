@@ -26,10 +26,10 @@
             android:layout_alignParentLeft="true"/>
 
         <ImageButton android:background="@null"
-            android:id="@+id/forward"
+            android:id="@+id/done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_forward"
+            android:src="@drawable/ic_done"
             android:padding="10dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
