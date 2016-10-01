@@ -27,7 +27,15 @@ public class AddTimerFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_timer, container, false);
         addForwardBtn();
+        TimerUtils.addClearBtn(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+        ((TimerContract.AddTimerCallback) getActivity()).setToolbarTitle();
     }
 
     private void addForwardBtn() {
@@ -38,12 +46,5 @@ public class AddTimerFragment extends Fragment {
                 ((TimerContract.AddTimerCallback) getActivity()).forwardToSetInterval();
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-        ((TimerContract.AddTimerCallback) getActivity()).setToolbarTitle();
     }
 }
