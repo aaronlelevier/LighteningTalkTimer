@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Lightening Talk Timer</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_add_timer">Add Timer Activity</string>
+    <string name="title_activity_add_timer">Add Timer</string>
+    <string name="title_set_timer_interval">Set Alert Interval</string>
 </resources>
