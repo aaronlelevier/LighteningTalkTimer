@@ -40,39 +40,45 @@ public class TimerTest {
     }
 
     @Test
-    public void addAndRemoveTimerItem() throws Exception {
+    public void secondsLinkedList() throws Exception {
         Timer timer = new Timer();
+        Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
         int one = 1;
         int two = 2;
-        assertEquals(0, timer.getSlotsInUse());
+        assertEquals(0, seconds.getSlotsInUse());
 
         // add
-        timer.addTimerItem(one);
+        seconds.addTimerItem(one);
         assertEquals("Error: 'add' should append to end, and shift by one",
-                Arrays.asList(0, 0, 0, 0, 0, 1), timer.getTimerSeconds());
-        assertEquals(1, timer.getSlotsInUse());
+                Arrays.asList(0, 0, 0, 0, 0, 1), seconds);
+        assertEquals(1, seconds.getSlotsInUse());
 
-        timer.addTimerItem(two);
+        seconds.addTimerItem(two);
         assertEquals("Error: 'add' should append to end, and shift by one (again)",
-                Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
-        assertEquals(2, timer.getSlotsInUse());
+                Arrays.asList(0, 0, 0, 0, 1, 2), seconds);
+        assertEquals(2, seconds.getSlotsInUse());
 
-        timer.setSlotsInUse(6);
-        timer.addTimerItem(one);
+        seconds.setSlotsInUse(6);
+        seconds.addTimerItem(one);
         assertEquals("Error: if all slots are in use, then 'add' doesn't modify 'timer' array",
-                Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
+                Arrays.asList(0, 0, 0, 0, 1, 2), seconds);
 
         // remove
-        timer.removeTimerItem();
+        seconds.removeTimerItem();
         assertEquals("Error: should use LIFO and remove last item",
-                Arrays.asList(0, 0, 0, 0, 0, 1), timer.getTimerSeconds());
+                Arrays.asList(0, 0, 0, 0, 0, 1), seconds);
 
-        timer.removeTimerItem();
+        seconds.removeTimerItem();
         assertEquals("Error: should use LIFO and remove last item (again)",
-                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getTimerSeconds());
+                Arrays.asList(0, 0, 0, 0, 0, 0), seconds);
 
-        timer.removeTimerItem();
+        seconds.removeTimerItem();
         assertEquals("Error: if 'slots in use' is 0, then this operation has no affect",
-                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getTimerSeconds());
+                Arrays.asList(0, 0, 0, 0, 0, 0), seconds);
+
+        // don't run all method tests for 'interval seconds', just confirm that it's the same type
+        assertEquals("Error: 'timer seconds' and 'interval seconds' should be the same type",
+                timer.getTimerSeconds().getClass(), timer.getIntervalSeconds().getClass());
+
     }
 }

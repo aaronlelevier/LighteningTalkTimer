@@ -6,52 +6,62 @@ import java.util.UUID;
 
 public class Timer {
 
-    private static final int SECONDS_DEFAULT = 0;
-
     private final String mId;
-    private LinkedList<Integer> mTimerSeconds;
-    private LinkedList<Integer> mIntervalSeconds;
-    private int mSlotsInUse = 0;
+    public SecondsLinkedList mTimerSeconds;
+    public SecondsLinkedList mIntervalSeconds;
 
     public Timer() {
         mId = UUID.randomUUID().toString();
-
-        mTimerSeconds = mIntervalSeconds = new LinkedList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
+        mTimerSeconds = new SecondsLinkedList();
+        mIntervalSeconds = new SecondsLinkedList();
     }
 
     public String getId() {
         return mId;
     }
 
-    public LinkedList<Integer> getTimerSeconds() {
+    public SecondsLinkedList getTimerSeconds() {
         return mTimerSeconds;
     }
 
-    public LinkedList<Integer> getIntervalSeconds() {
+    public SecondsLinkedList getIntervalSeconds() {
         return mIntervalSeconds;
     }
 
-    public int getSlotsInUse() {
-        return mSlotsInUse;
-    }
+    public class SecondsLinkedList extends LinkedList<Integer> {
 
-    public void setSlotsInUse(int mSlotsInUse) {
-        this.mSlotsInUse = mSlotsInUse;
-    }
+        private static final int SECONDS_DEFAULT = 0;
+        private static final int MAX_SLOTS = 6;
+        private static final int INITIAL_SLOTS = 0;
 
-    public void addTimerItem(int i) {
-        if (mSlotsInUse < 6) {
-            mTimerSeconds.addLast(i);
-            mTimerSeconds.remove();
-            mSlotsInUse++;
+        private int mSlotsInUse = INITIAL_SLOTS;
+
+        public SecondsLinkedList() {
+            super(Arrays.asList(0, 0, 0, 0, 0, 0));
         }
-    }
 
-    public void removeTimerItem() {
-        if (mSlotsInUse > 0) {
-            mTimerSeconds.removeLast();
-            mTimerSeconds.addFirst(SECONDS_DEFAULT);
-            mSlotsInUse--;
+        public int getSlotsInUse() {
+            return mSlotsInUse;
+        }
+
+        public void setSlotsInUse(int mSlotsInUse) {
+            this.mSlotsInUse = mSlotsInUse;
+        }
+//
+        public void addTimerItem(int i) {
+            if (mSlotsInUse < MAX_SLOTS) {
+                addLast(i);
+                remove();
+                mSlotsInUse++;
+            }
+        }
+
+        public void removeTimerItem() {
+            if (mSlotsInUse > INITIAL_SLOTS) {
+                mTimerSeconds.removeLast();
+                mTimerSeconds.addFirst(SECONDS_DEFAULT);
+                mSlotsInUse--;
+            }
         }
     }
 }
