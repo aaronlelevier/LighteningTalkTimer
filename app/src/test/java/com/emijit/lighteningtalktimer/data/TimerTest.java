@@ -46,6 +46,7 @@ public class TimerTest {
         int two = 2;
         assertEquals(0, timer.getSlotsInUse());
 
+        // add
         timer.addTimerItem(one);
         assertEquals("Error: 'add' should append to end, and shift by one",
                 Arrays.asList(0, 0, 0, 0, 0, 1), timer.getTimerSeconds());
@@ -60,5 +61,18 @@ public class TimerTest {
         timer.addTimerItem(one);
         assertEquals("Error: if all slots are in use, then 'add' doesn't modify 'timer' array",
                 Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
+
+        // remove
+        timer.removeTimerItem();
+        assertEquals("Error: should use LIFO and remove last item",
+                Arrays.asList(0, 0, 0, 0, 0, 1), timer.getTimerSeconds());
+
+        timer.removeTimerItem();
+        assertEquals("Error: should use LIFO and remove last item (again)",
+                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getTimerSeconds());
+
+        timer.removeTimerItem();
+        assertEquals("Error: if 'slots in use' is 0, then this operation has no affect",
+                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getTimerSeconds());
     }
 }
