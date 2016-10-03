@@ -2,7 +2,7 @@ package com.emijit.lighteningtalktimer.data;
 
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,14 +28,37 @@ public class TimerTest {
 
         // timerSeconds
         assertTrue("Error: Timer should have a 'timer seconds' array to hold 6 digits for 00h00m00s",
-                timer.getTimerSeconds() instanceof List);
-        assertEquals("Error: length should be 6 of 'timer seconds' list",
-                timer.getTimerSeconds().size(), 6);
+                timer.getTimerSeconds() != null);
+        assertEquals("Error: default timer array doesn't match",
+                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getTimerSeconds());
 
         // intervalSeconds
         assertTrue("Error: Timer should have a 'interval seconds' array to hold 6 digits for 00h00m00s",
-                timer.getIntervalSeconds() instanceof List);
-        assertEquals("Error: length should be 6 of 'interval seconds' list",
-                timer.getIntervalSeconds().size(), 6);
+                timer.getIntervalSeconds() != null);
+        assertEquals("Error: default interval array doesn't match",
+                Arrays.asList(0, 0, 0, 0, 0, 0), timer.getIntervalSeconds());
+    }
+
+    @Test
+    public void addAndRemoveTimerItem() throws Exception {
+        Timer timer = new Timer();
+        int one = 1;
+        int two = 2;
+        assertEquals(0, timer.getSlotsInUse());
+
+        timer.addTimerItem(one);
+        assertEquals("Error: 'add' should append to end, and shift by one",
+                Arrays.asList(0, 0, 0, 0, 0, 1), timer.getTimerSeconds());
+        assertEquals(1, timer.getSlotsInUse());
+
+        timer.addTimerItem(two);
+        assertEquals("Error: 'add' should append to end, and shift by one (again)",
+                Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
+        assertEquals(2, timer.getSlotsInUse());
+
+        timer.setSlotsInUse(6);
+        timer.addTimerItem(one);
+        assertEquals("Error: if all slots are in use, then 'add' doesn't modify 'timer' array",
+                Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
     }
 }

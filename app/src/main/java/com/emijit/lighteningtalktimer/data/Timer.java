@@ -1,32 +1,47 @@
 package com.emijit.lighteningtalktimer.data;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class Timer {
 
     private final String mId;
-    private List<String> mTimerSeconds;
-    private List<String> mIntervalSeconds;
+    private LinkedList<Integer> mTimerSeconds;
+    private LinkedList<Integer> mIntervalSeconds;
+    private int mSlotsInUse = 0;
 
     public Timer() {
         mId = UUID.randomUUID().toString();
 
-        String[] strings = new String[6];
-        Arrays.fill(strings, "0");
-        mTimerSeconds = mIntervalSeconds = Arrays.asList(strings);
+        mTimerSeconds = mIntervalSeconds = new LinkedList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
     }
 
     public String getId() {
         return mId;
     }
 
-    public List<String> getTimerSeconds() {
+    public LinkedList<Integer> getTimerSeconds() {
         return mTimerSeconds;
     }
 
-    public List<String> getIntervalSeconds() {
+    public LinkedList<Integer> getIntervalSeconds() {
         return mIntervalSeconds;
+    }
+
+    public void addTimerItem(int i) {
+        if (mSlotsInUse < 6) {
+            mTimerSeconds.addLast(i);
+            mTimerSeconds.remove();
+            mSlotsInUse++;
+        }
+    }
+
+    public int getSlotsInUse() {
+        return mSlotsInUse;
+    }
+
+    public void setSlotsInUse(int mSlotsInUse) {
+        this.mSlotsInUse = mSlotsInUse;
     }
 }
