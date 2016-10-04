@@ -62,14 +62,14 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.one:
-                mTimer.getTimerSeconds().add(1);
+                mTimer.getTimerSeconds().addTimerItem(1);
                 break;
             case R.id.delete_char_btn:
-                mTimer.getTimerSeconds().remove();
+                mTimer.getTimerSeconds().removeTimerItem();
             default:
                 break;
         }
-//        secondsText.setText(mTimer.getTimerSeconds().subList(5, 2));
+        secondsText.setText(mTimer.getTimerSeconds().getSeconds());
 
     }
 
