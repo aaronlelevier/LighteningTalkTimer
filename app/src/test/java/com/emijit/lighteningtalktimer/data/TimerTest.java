@@ -81,4 +81,17 @@ public class TimerTest {
                 timer.getTimerSeconds().getClass(), timer.getIntervalSeconds().getClass());
 
     }
+
+    @Test
+    public void getSeconds() throws Exception {
+        Timer timer = new Timer();
+        Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
+        seconds.addTimerItem(1);
+        seconds.addTimerItem(2);
+        assertEquals("Error: initial setup incorrect",
+                Arrays.asList(0, 0, 0, 0, 1, 2), seconds);
+
+        assertEquals("Error: should be able to slice thie seconds array and return seconds only as a String",
+                "12", seconds.getSeconds());
+    }
 }

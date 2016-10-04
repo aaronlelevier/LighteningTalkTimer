@@ -63,5 +63,9 @@ public class Timer {
                 mSlotsInUse--;
             }
         }
+
+        public String getSeconds() {
+            return Integer.toString(get(4)) + Integer.toString(get(5));
+        }
     }
 }
