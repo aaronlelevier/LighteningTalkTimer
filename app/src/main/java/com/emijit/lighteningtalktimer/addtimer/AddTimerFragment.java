@@ -24,6 +24,8 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
     private Timer mTimer;
 
     private TextView secondsText;
+    private TextView minutesText;
+    private TextView hoursText;
 
     public AddTimerFragment() {
     }
@@ -50,27 +52,49 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
         // buttons
         ImageButton deleteBtn = (ImageButton) rootView.findViewById(R.id.delete_char_btn);
         deleteBtn.setOnClickListener(this);
-        Button oneBtn = (Button) rootView.findViewById(R.id.one);
-        oneBtn.setOnClickListener(this);
+
+        setAllButtonListener((ViewGroup)rootView);
 
         // hours/min/sec
         secondsText = (TextView) rootView.findViewById(R.id.timer_seconds);
+        minutesText = (TextView) rootView.findViewById(R.id.timer_minutes);
+        hoursText = (TextView) rootView.findViewById(R.id.timer_hours);
 
+    }
+
+    public void setAllButtonListener(ViewGroup viewGroup) {
+
+        View v;
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            v = viewGroup.getChildAt(i);
+            if (v instanceof ViewGroup) {
+                setAllButtonListener((ViewGroup) v);
+            } else if (v instanceof Button) {
+                ((Button) v).setOnClickListener(this);
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
+        Button b;
         switch (v.getId()) {
-            case R.id.one:
-                mTimer.getTimerSeconds().addTimerItem(1);
-                break;
             case R.id.delete_char_btn:
                 mTimer.getTimerSeconds().removeTimerItem();
+                break;
             default:
+                b = (Button) v;
+                int i = Integer.parseInt(b.getText().toString());
+                mTimer.getTimerSeconds().addTimerItem(i);
                 break;
         }
-        secondsText.setText(mTimer.getTimerSeconds().getSeconds());
+        updateTimer();
+    }
 
+    private void updateTimer() {
+        secondsText.setText(mTimer.getTimerSeconds().getSeconds());
+        minutesText.setText(mTimer.getTimerSeconds().getMinutes());
+        hoursText.setText(mTimer.getTimerSeconds().getHours());
     }
 
     private void addForwardBtn() {

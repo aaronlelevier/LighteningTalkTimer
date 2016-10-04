@@ -67,5 +67,13 @@ public class Timer {
         public String getSeconds() {
             return Integer.toString(get(4)) + Integer.toString(get(5));
         }
+
+        public String getMinutes() {
+            return Integer.toString(get(2)) + Integer.toString(get(3));
+        }
+
+        public String getHours() {
+            return Integer.toString(get(0)) + Integer.toString(get(1));
+        }
     }
 }
