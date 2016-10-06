@@ -1,10 +1,15 @@
 package com.emijit.lighteningtalktimer.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.common.base.Objects;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class Timer {
+public class Timer implements Parcelable {
 
     private final String mId;
     public SecondsLinkedList mTimerSeconds;
@@ -27,6 +32,43 @@ public class Timer {
     public SecondsLinkedList getIntervalSeconds() {
         return mIntervalSeconds;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Timer timer = (Timer) o;
+        return Objects.equal(mId, timer.getId());
+    }
+
+    // Parcelable methods: start
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(mId);
+    }
+
+    public static final Parcelable.Creator<Timer> CREATOR
+            = new Parcelable.Creator<Timer>() {
+        public Timer createFromParcel(Parcel in) {
+            return new Timer(in);
+        }
+
+        public Timer[] newArray(int size) {
+            return new Timer[size];
+        }
+    };
+
+    private Timer(Parcel in) {
+        mId = in.readString();
+    }
+
+    // Parcelable methods: end
 
     public class SecondsLinkedList extends LinkedList<Integer> {
 

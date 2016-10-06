@@ -70,7 +70,7 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
             if (v instanceof ViewGroup) {
                 setAllButtonListener((ViewGroup) v);
             } else if (v instanceof Button) {
-                ((Button) v).setOnClickListener(this);
+                v.setOnClickListener(this);
             }
         }
     }

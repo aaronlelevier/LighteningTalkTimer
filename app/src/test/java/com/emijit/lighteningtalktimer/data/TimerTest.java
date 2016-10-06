@@ -84,14 +84,9 @@ public class TimerTest {
 
     @Test
     public void getSecondsMinutesAndHours() throws Exception {
-        Timer timer = new Timer();
+        Timer timer = TimerTestUtils.createTimer();
         Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
-        seconds.addTimerItem(1);
-        seconds.addTimerItem(2);
-        seconds.addTimerItem(3);
-        seconds.addTimerItem(4);
-        seconds.addTimerItem(5);
-        seconds.addTimerItem(6);
+
         assertEquals("Error: initial setup incorrect",
                 Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
 
@@ -103,6 +98,5 @@ public class TimerTest {
 
         assertEquals("Error: getHours - should be able to slice and return the first two items",
                 "12", seconds.getHours());
-
     }
 }
