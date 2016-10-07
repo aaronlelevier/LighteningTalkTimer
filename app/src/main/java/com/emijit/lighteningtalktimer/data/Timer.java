@@ -58,7 +58,9 @@ public class Timer implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Timer timer = (Timer) o;
-        return Objects.equal(mId, timer.getId());
+        return Objects.equal(mId, timer.getId()) &&
+                Objects.equal(mTimerSecondsStrValue, timer.getTimerSecondsStrValue()) &&
+                Objects.equal(mIntervalSecondsStrValue, timer.getIntervalSecondsStrValue());
     }
 
     // Parcelable methods: start
@@ -71,6 +73,8 @@ public class Timer implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(mId);
+        out.writeString(mTimerSecondsStrValue);
+        out.writeString(mIntervalSecondsStrValue);
     }
 
     public static final Parcelable.Creator<Timer> CREATOR
@@ -86,6 +90,8 @@ public class Timer implements Parcelable {
 
     private Timer(Parcel in) {
         mId = in.readString();
+        mTimerSecondsStrValue = in.readString();
+        mIntervalSecondsStrValue = in.readString();
     }
 
     // Parcelable methods: end

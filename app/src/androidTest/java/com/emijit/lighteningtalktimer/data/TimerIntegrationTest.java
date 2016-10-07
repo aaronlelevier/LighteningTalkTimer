@@ -29,6 +29,8 @@ public class TimerIntegrationTest {
         parcel.setDataPosition(0);
 
         Timer createdFromParcel = Timer.CREATOR.createFromParcel(parcel);
-        assertEquals(timer, createdFromParcel);
+        assertEquals(timer.getId(), createdFromParcel.getId());
+        assertEquals(timer.getTimerSecondsStrValue(), createdFromParcel.getTimerSecondsStrValue());
+        assertEquals(timer.getIntervalSecondsStrValue(), createdFromParcel.getIntervalSecondsStrValue());
     }
 }
