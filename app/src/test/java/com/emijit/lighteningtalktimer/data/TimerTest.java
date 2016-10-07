@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class TimerTest {
+
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
@@ -98,5 +99,49 @@ public class TimerTest {
 
         assertEquals("Error: getHours - should be able to slice and return the first two items",
                 "12", seconds.getHours());
+    }
+
+    @Test
+    public void convertStrValue() throws Exception {
+        Timer timer = new Timer();
+        assertEquals("Error: str representation of the seconds linked list should be empty if list is empty",
+                "000000", timer.getTimerSeconds().convertStrValue());
+
+        Timer timerTwo = TimerTestUtils.createTimer();
+        assertEquals("Error: should return a string representation of the linked list's contents",
+                "123456", timerTwo.getTimerSeconds().convertStrValue());
+    }
+
+    @Test
+    public void setAndGetStrValue() {
+        Timer timer = new Timer();
+        assertEquals("Error: should be blank until set",
+                "", timer.getTimerSeconds().getStrValue());
+        timer.getTimerSeconds().setStrValue();
+        assertEquals("Error: should be populated with the converted value after set has been called",
+                "000000", timer.getTimerSeconds().getStrValue());
+
+        Timer timerTwo = TimerTestUtils.createTimer();
+        assertEquals("Error: should be blank until set",
+                "", timerTwo.getTimerSeconds().getStrValue());
+        timerTwo.getTimerSeconds().setStrValue();
+        assertEquals("Error: should be populated with the converted value after set has been called",
+                "123456", timerTwo.getTimerSeconds().getStrValue());
+    }
+
+    @Test
+    public void convertStrToList() {
+        Timer timer = TimerTestUtils.createTimer();
+        timer.getTimerSeconds().setStrValue();
+        assertEquals("123456", timer.getTimerSeconds().getStrValue());
+
+        timer.getTimerSeconds().removeTimerItem();
+        assertEquals(Arrays.asList(0, 1, 2, 3, 4, 5), timer.getTimerSeconds());
+        assertEquals("Error: even though the list value has changed, we still have the saved strValue",
+                "123456", timer.getTimerSeconds().getStrValue());
+        timer.getTimerSeconds().convertStrToList();
+        assertEquals("Error: after calling 'convertStrToList' it should restore the list contents to the strValue",
+                Arrays.asList(1, 2, 3, 4, 5, 6), timer.getTimerSeconds());
+
     }
 }

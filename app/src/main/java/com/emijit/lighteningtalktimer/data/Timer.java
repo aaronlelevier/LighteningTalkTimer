@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.base.Objects;
+import com.google.common.primitives.Chars;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class Timer implements Parcelable {
@@ -77,6 +79,7 @@ public class Timer implements Parcelable {
         private static final int INITIAL_SLOTS = 0;
 
         private int mSlotsInUse = INITIAL_SLOTS;
+        private String mStrValue = "";
 
         public SecondsLinkedList() {
             super(Arrays.asList(0, 0, 0, 0, 0, 0));
@@ -116,6 +119,33 @@ public class Timer implements Parcelable {
 
         public String getHours() {
             return Integer.toString(get(0)) + Integer.toString(get(1));
+        }
+
+        public String getStrValue() {
+            return mStrValue;
+        }
+
+        public void setStrValue() {
+            mStrValue = convertStrValue();
+        }
+
+        public String convertStrValue() {
+            StringBuilder sb = new StringBuilder();
+            for (int i=0; i < size(); i++) {
+                sb.append(get(i));
+            }
+            return sb.toString();
+        }
+
+        public void convertStrToList() {
+            for (int i=0; i < MAX_SLOTS; i++) {
+                removeTimerItem();
+            }
+            List<Character> characterList = Chars.asList(mStrValue.toCharArray());
+            for (char c:characterList) {
+                String s = String.valueOf(c);
+                addTimerItem(Integer.parseInt(s));
+            }
         }
     }
 }
