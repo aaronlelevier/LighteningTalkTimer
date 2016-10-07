@@ -41,6 +41,13 @@ public class TimerTest {
     }
 
     @Test
+    public void initWithAddTimerStrValue() throws Exception {
+        String addTimerStr = "123456";
+        Timer timer = new Timer(addTimerStr);
+        assertEquals(addTimerStr, timer.getTimerSecondsStrValue());
+    }
+
+    @Test
     public void secondsLinkedList() throws Exception {
         Timer timer = new Timer();
         Timer.SecondsLinkedList seconds = timer.getTimerSeconds();

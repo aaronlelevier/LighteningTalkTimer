@@ -102,7 +102,8 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((TimerContract.AddTimerCallback) getActivity()).forwardToSetInterval();
+                mTimer.setTimerSecondsStrValue();
+                ((TimerContract.AddTimerCallback) getActivity()).forwardToSetInterval(mTimer);
             }
         });
     }

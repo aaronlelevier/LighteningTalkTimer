@@ -25,6 +25,11 @@ public class Timer implements Parcelable {
         mIntervalSeconds = new SecondsLinkedList();
     }
 
+    public Timer(String addTimerStr) {
+        mId = UUID.randomUUID().toString();
+        mTimerSecondsStrValue = addTimerStr;
+    }
+
     public String getId() {
         return mId;
     }

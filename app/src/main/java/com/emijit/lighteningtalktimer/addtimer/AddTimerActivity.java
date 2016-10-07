@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.emijit.lighteningtalktimer.R;
+import com.emijit.lighteningtalktimer.data.Timer;
 
 public class AddTimerActivity extends AppCompatActivity implements TimerContract.AddTimerCallback {
 
+    public static final String TIMER = "TIMER";
     private Toolbar mToolbar;
 
     @Override
@@ -23,10 +25,16 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
     }
 
     @Override
-    public void forwardToSetInterval() {
+    public void forwardToSetInterval(Timer timer) {
         mToolbar.setTitle(getString(R.string.title_set_timer_interval));
+
+        Bundle args = new Bundle();
+        args.putParcelable(TIMER, timer);
+        SetIntervalFragment fragment = new SetIntervalFragment();
+        fragment.setArguments(args);
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new SetIntervalFragment())
+                .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
