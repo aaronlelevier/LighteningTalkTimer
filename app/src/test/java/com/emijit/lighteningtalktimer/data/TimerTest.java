@@ -84,6 +84,22 @@ public class TimerTest {
     }
 
     @Test
+    public void getAndSetSecondsStrValueOnTimer() throws Exception {
+        // add timer
+        Timer timer = TimerTestUtils.createTimer();
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), timer.getTimerSeconds());
+        assertEquals("", timer.getTimerSecondsStrValue());
+        timer.setTimerSecondsStrValue();
+        assertEquals("123456", timer.getTimerSecondsStrValue());
+        // set interval
+        assertEquals(Arrays.asList(0, 0, 0, 0, 0, 0), timer.getIntervalSeconds());
+        assertEquals("", timer.getIntervalSecondsStrValue());
+        timer.setIntervalSecondsStrValue();
+        assertEquals("Error: this should be 6 zeros it's just the default list, unlike 'add timer'",
+                "000000", timer.getIntervalSecondsStrValue());
+    }
+
+    @Test
     public void getSecondsMinutesAndHours() throws Exception {
         Timer timer = TimerTestUtils.createTimer();
         Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
@@ -113,7 +129,7 @@ public class TimerTest {
     }
 
     @Test
-    public void setAndGetStrValue() {
+    public void setAndGetStrValue() throws Exception {
         Timer timer = new Timer();
         assertEquals("Error: should be blank until set",
                 "", timer.getTimerSeconds().getStrValue());
@@ -130,7 +146,7 @@ public class TimerTest {
     }
 
     @Test
-    public void convertStrToList() {
+    public void convertStrToList() throws Exception {
         Timer timer = TimerTestUtils.createTimer();
         timer.getTimerSeconds().setStrValue();
         assertEquals("123456", timer.getTimerSeconds().getStrValue());

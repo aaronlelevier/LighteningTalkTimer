@@ -14,8 +14,10 @@ import java.util.UUID;
 public class Timer implements Parcelable {
 
     private final String mId;
-    public SecondsLinkedList mTimerSeconds;
-    public SecondsLinkedList mIntervalSeconds;
+    private SecondsLinkedList mTimerSeconds;
+    private SecondsLinkedList mIntervalSeconds;
+    private String mTimerSecondsStrValue = "";
+    private String mIntervalSecondsStrValue = "";
 
     public Timer() {
         mId = UUID.randomUUID().toString();
@@ -33,6 +35,22 @@ public class Timer implements Parcelable {
 
     public SecondsLinkedList getIntervalSeconds() {
         return mIntervalSeconds;
+    }
+
+    public String getTimerSecondsStrValue() {
+        return mTimerSecondsStrValue;
+    }
+
+    public void setTimerSecondsStrValue() {
+        mTimerSecondsStrValue = getTimerSeconds().convertStrValue();
+    }
+
+    public String getIntervalSecondsStrValue() {
+        return mIntervalSecondsStrValue;
+    }
+
+    public void setIntervalSecondsStrValue() {
+        mIntervalSecondsStrValue = getIntervalSeconds().convertStrValue();
     }
 
     @Override
