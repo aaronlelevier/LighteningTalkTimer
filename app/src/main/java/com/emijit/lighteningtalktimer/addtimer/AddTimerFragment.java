@@ -35,13 +35,27 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_timer, container, false);
 
+        // unique to 'add timer' fragment, 'set interval' has a 'done' btn
+        setForwardBtn();
+
         // setup all buttons and hour/min/sec UI fields
-        addForwardBtn();
         setupButtons();
-        TimerUtils.addClearBtn(this, rootView);
 
         // this call needs to happen after button setup b/c needs UI fields
         // present, in order to update their values to that of the Timer instance
+        setTimerInstance();
+
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(LOG_TAG, "onStart");
+        ((TimerContract.AddTimerCallback) getActivity()).setToolbarTitle();
+    }
+
+    private void setTimerInstance() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             mTimer = bundle.getParcelable(AddTimerActivity.TIMER);
@@ -54,14 +68,6 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
             Log.d(LOG_TAG, "had to instantiate mTimer");
         }
 
-        return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "onStart");
-        ((TimerContract.AddTimerCallback) getActivity()).setToolbarTitle();
     }
 
     public void setupButtons() {
@@ -69,22 +75,32 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
         ImageButton deleteBtn = (ImageButton) rootView.findViewById(R.id.delete_char_btn);
         deleteBtn.setOnClickListener(this);
 
-        setAllButtonListener((ViewGroup)rootView);
+        setAllButtonListeners((ViewGroup) rootView);
 
         // hours/min/sec
         secondsText = (TextView) rootView.findViewById(R.id.timer_seconds);
         minutesText = (TextView) rootView.findViewById(R.id.timer_minutes);
         hoursText = (TextView) rootView.findViewById(R.id.timer_hours);
 
+        TimerUtils.addClearBtn(this, rootView);
     }
 
-    public void setAllButtonListener(ViewGroup viewGroup) {
+    private void setForwardBtn() {
+        ImageButton btn = (ImageButton) rootView.findViewById(R.id.forward);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((TimerContract.AddTimerCallback) getActivity()).forwardToSetInterval(mTimer);
+            }
+        });
+    }
 
+    private void setAllButtonListeners(ViewGroup viewGroup) {
         View v;
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             v = viewGroup.getChildAt(i);
             if (v instanceof ViewGroup) {
-                setAllButtonListener((ViewGroup) v);
+                setAllButtonListeners((ViewGroup) v);
             } else if (v instanceof Button) {
                 v.setOnClickListener(this);
             }
@@ -111,15 +127,5 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
         secondsText.setText(mTimer.getTimerSeconds().getSeconds());
         minutesText.setText(mTimer.getTimerSeconds().getMinutes());
         hoursText.setText(mTimer.getTimerSeconds().getHours());
-    }
-
-    private void addForwardBtn() {
-        ImageButton btn = (ImageButton) rootView.findViewById(R.id.forward);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((TimerContract.AddTimerCallback) getActivity()).forwardToSetInterval(mTimer);
-            }
-        });
     }
 }
