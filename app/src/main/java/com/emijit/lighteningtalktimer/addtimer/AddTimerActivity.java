@@ -9,8 +9,11 @@ import com.emijit.lighteningtalktimer.data.Timer;
 
 public class AddTimerActivity extends AppCompatActivity implements TimerContract.AddTimerCallback {
 
+    private static final String LOG_TAG = AddTimerActivity.class.getSimpleName();
+
     public static final String TIMER = "TIMER";
     private Toolbar mToolbar;
+    private Timer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +22,15 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        // create a timer instance to live for the life of this Activity
+        mTimer = new Timer();
+        Bundle args = new Bundle();
+        args.putParcelable(TIMER, mTimer);
+        AddTimerFragment fragment = new AddTimerFragment();
+        fragment.setArguments(args);
+
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new AddTimerFragment())
+                .add(R.id.container, fragment)
                 .commit();
     }
 

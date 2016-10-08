@@ -18,6 +18,7 @@ public class SetIntervalFragment extends Fragment {
     private static final String LOG_TAG = SetIntervalFragment.class.getSimpleName();
 
     private View rootView;
+    private Timer mTimer;
 
     public SetIntervalFragment() {
     }
@@ -28,15 +29,20 @@ public class SetIntervalFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_set_interval, container, false);
         TimerUtils.addClearBtn(this, rootView);
 
-        Bundle bundle = this.getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null) {
-            Timer timer = bundle.getParcelable(AddTimerActivity.TIMER);
-            Log.d(LOG_TAG, timer.getTimerSecondsStrValue());
+            mTimer = bundle.getParcelable(AddTimerActivity.TIMER);
+            if (mTimer != null) {
+                Log.d(LOG_TAG, mTimer.getTimerSecondsStrValue());
+                Log.d(LOG_TAG, mTimer.getTimerSeconds().toString());
+            }
         } else {
             Log.d(LOG_TAG, "no Timer instance");
         }
 
         return rootView;
     }
+
+
 
 }

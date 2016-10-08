@@ -34,10 +34,26 @@ public class AddTimerFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_timer, container, false);
-        mTimer = new Timer();
+
+        // setup all buttons and hour/min/sec UI fields
         addForwardBtn();
         setupButtons();
         TimerUtils.addClearBtn(this, rootView);
+
+        // this call needs to happen after button setup b/c needs UI fields
+        // present, in order to update their values to that of the Timer instance
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            mTimer = bundle.getParcelable(AddTimerActivity.TIMER);
+            if (mTimer != null) {
+                Log.d(LOG_TAG, "mTimer exists");
+                updateTimer();
+            }
+        } else {
+            mTimer = new Timer();
+            Log.d(LOG_TAG, "had to instantiate mTimer");
+        }
+
         return rootView;
     }
 
