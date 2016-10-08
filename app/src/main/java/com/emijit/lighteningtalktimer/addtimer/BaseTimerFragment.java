@@ -16,7 +16,7 @@ import com.emijit.lighteningtalktimer.data.Timer;
  * Created by aaron on 10/8/16.
  */
 
-public class BaseTimerFragment extends Fragment implements View.OnClickListener {
+public abstract class BaseTimerFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = AddTimerFragment.class.getSimpleName();
 
