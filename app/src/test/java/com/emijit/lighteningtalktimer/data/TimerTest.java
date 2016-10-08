@@ -41,13 +41,6 @@ public class TimerTest {
     }
 
     @Test
-    public void initWithAddTimerStrValue() throws Exception {
-        String addTimerStr = "123456";
-        Timer timer = new Timer(addTimerStr);
-        assertEquals(addTimerStr, timer.getTimerSecondsStrValue());
-    }
-
-    @Test
     public void secondsLinkedList() throws Exception {
         Timer timer = new Timer();
         Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
@@ -166,5 +159,26 @@ public class TimerTest {
         assertEquals("Error: after calling 'convertStrToList' it should restore the list contents to the strValue",
                 Arrays.asList(1, 2, 3, 4, 5, 6), timer.getTimerSeconds());
 
+    }
+
+    @Test
+    public void prepareToXfr() throws Exception {
+        Timer timer = new Timer();
+        // add timer seconds
+        timer.getTimerSeconds().addTimerItem(1);
+        timer.getTimerSeconds().addTimerItem(2);
+        // set interval seconds
+        timer.getIntervalSeconds().addTimerItem(3);
+        timer.getIntervalSeconds().addTimerItem(4);
+        // pre-test
+        assertEquals(Arrays.asList(0, 0, 0, 0, 1, 2), timer.getTimerSeconds());
+        assertEquals(Arrays.asList(0, 0, 0, 0, 3, 4), timer.getIntervalSeconds());
+        assertEquals("", timer.getTimerSecondsStrValue());
+        assertEquals("", timer.getIntervalSecondsStrValue());
+
+        timer.prepareToXfr();
+
+        assertEquals("000012", timer.getTimerSecondsStrValue());
+        assertEquals("000034", timer.getIntervalSecondsStrValue());
     }
 }

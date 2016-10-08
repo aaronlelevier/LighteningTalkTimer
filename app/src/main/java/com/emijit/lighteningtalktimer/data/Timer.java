@@ -25,11 +25,6 @@ public class Timer implements Parcelable {
         mIntervalSeconds = new SecondsLinkedList();
     }
 
-    public Timer(String addTimerStr) {
-        mId = UUID.randomUUID().toString();
-        mTimerSecondsStrValue = addTimerStr;
-    }
-
     public String getId() {
         return mId;
     }
@@ -56,6 +51,15 @@ public class Timer implements Parcelable {
 
     public void setIntervalSecondsStrValue() {
         mIntervalSecondsStrValue = getIntervalSeconds().convertStrValue();
+    }
+
+    /*
+    * Sets lists to primitive String values on the Timer. To be called before
+    * sending a Timer instance through a Fragment Bundle.
+    * */
+    public void prepareToXfr() {
+        setTimerSecondsStrValue();
+        setIntervalSecondsStrValue();
     }
 
     @Override
