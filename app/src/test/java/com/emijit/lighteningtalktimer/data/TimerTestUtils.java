@@ -8,7 +8,7 @@ public class TimerTestUtils {
 
     public static Timer createTimer() {
         Timer timer = new Timer();
-        SecondsLinkedList seconds = timer.getTimerSeconds();
+        Seconds seconds = timer.getTimerSeconds();
         seconds.addTimerItem(1);
         seconds.addTimerItem(2);
         seconds.addTimerItem(3);
@@ -18,8 +18,8 @@ public class TimerTestUtils {
         return timer;
     }
 
-    public static SecondsLinkedList createSeconds() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+    public static Seconds createSeconds() {
+        Seconds seconds = new Seconds();
         seconds.addTimerItem(1);
         seconds.addTimerItem(2);
         seconds.addTimerItem(3);

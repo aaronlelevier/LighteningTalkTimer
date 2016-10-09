@@ -7,11 +7,11 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 
-public class SecondsLinkedListTest {
+public class SecondsTest {
 
     @Test
     public void init() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+        Seconds seconds = new Seconds();
 
         assertEquals(Arrays.asList(0, 0, 0, 0, 0, 0), seconds);
         assertEquals(0, seconds.getSlotsInUse());
@@ -22,7 +22,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void addTimerItem() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+        Seconds seconds = new Seconds();
 
         seconds.addTimerItem(1);
 
@@ -32,7 +32,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void addTimerItemMaxSlotsUsed() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+        Seconds seconds = new Seconds();
 
         // 3x
         seconds.addTimerItem(1);
@@ -61,7 +61,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void removeTimerItem() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+        Seconds seconds = new Seconds();
 
         seconds.addTimerItem(1);
 
@@ -76,7 +76,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void removeTimerItemNoAffectIfSlotsInUseIsZero() {
-        SecondsLinkedList seconds = new SecondsLinkedList();
+        Seconds seconds = new Seconds();
 
         assertEquals(Arrays.asList(0, 0, 0, 0, 0, 0), seconds);
         assertEquals(0, seconds.getSlotsInUse());
@@ -91,7 +91,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void createSeconds() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
 
         assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
         assertEquals(6, seconds.getSlotsInUse());
@@ -101,21 +101,21 @@ public class SecondsLinkedListTest {
 
     @Test
     public void getHours() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
 
         assertEquals("12", seconds.getHours());
     }
 
     @Test
     public void getMinutes() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
 
         assertEquals("34", seconds.getMinutes());
     }
 
     @Test
     public void getSeconds() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
 
         assertEquals("56", seconds.getSeconds());
     }
@@ -124,7 +124,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void getStrValue() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
         assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
 
         assertEquals("", seconds.getStrValue());
@@ -132,7 +132,7 @@ public class SecondsLinkedListTest {
 
     @Test
     public void setStrValue() {
-        SecondsLinkedList seconds = TimerTestUtils.createSeconds();
+        Seconds seconds = TimerTestUtils.createSeconds();
         assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
 
         assertEquals("", seconds.getStrValue());

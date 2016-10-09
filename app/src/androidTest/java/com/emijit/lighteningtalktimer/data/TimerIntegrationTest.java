@@ -15,7 +15,7 @@ public class TimerIntegrationTest {
     @Test
     public void timerIsParcelable() throws Exception {
         Timer timer = new Timer();
-        SecondsLinkedList seconds = timer.getTimerSeconds();
+        Seconds seconds = timer.getTimerSeconds();
         seconds.addTimerItem(1);
         seconds.addTimerItem(2);
         seconds.addTimerItem(3);

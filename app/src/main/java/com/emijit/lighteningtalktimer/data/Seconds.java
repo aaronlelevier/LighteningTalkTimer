@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 
-public class SecondsLinkedList extends LinkedList<Integer> {
+public class Seconds extends LinkedList<Integer> {
 
     private static final int SECONDS_DEFAULT = 0;
     private static final int MAX_SLOTS = 6;
@@ -13,7 +13,7 @@ public class SecondsLinkedList extends LinkedList<Integer> {
     private int mSlotsInUse = INITIAL_SLOTS;
     private String mStrValue = "";
 
-    public SecondsLinkedList() {
+    public Seconds() {
         super(Arrays.asList(0, 0, 0, 0, 0, 0));
     }
 
