@@ -1,10 +1,9 @@
 package com.emijit.lighteningtalktimer.data;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Created by aaron on 10/9/16.
- */
 
 public class TimerContract {
 
@@ -14,5 +13,21 @@ public class TimerContract {
 
         public static final String COLUMN_ADD_TIMER = "add_timer";
         public static final String COLUMN_SET_INTERVAL = "set_interval";
+
+        public static final String CONTENT_AUTHORITY = "com.emijit.lighteningtalktimer";
+
+        public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+        public static final String PATH_TIMER = "timer";
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_TIMER).build();
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TIMER;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE+ "/" + CONTENT_AUTHORITY + "/" + PATH_TIMER;
+
+        public static Uri buildTimerItem(String timerItem) {
+            return CONTENT_URI.buildUpon().appendPath(timerItem).build();
+        }
     }
 }
