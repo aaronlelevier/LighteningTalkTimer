@@ -38,8 +38,6 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
     public void forwardToSetInterval(Timer timer) {
         mToolbar.setTitle(getString(R.string.title_set_timer_interval));
 
-        timer.prepareToXfr();
-
         Bundle args = new Bundle();
         args.putParcelable(TIMER, timer);
         SetIntervalFragment fragment = new SetIntervalFragment();

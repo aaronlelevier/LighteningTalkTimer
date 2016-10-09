@@ -90,4 +90,10 @@ public abstract class BaseTimerFragment extends Fragment implements View.OnClick
         minutesText.setText(mTimer.getTimerSeconds().getMinutes());
         hoursText.setText(mTimer.getTimerSeconds().getHours());
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mTimer.prepareToXfr();
+    }
 }
