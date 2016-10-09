@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.emijit.lighteningtalktimer.R;
 import com.emijit.lighteningtalktimer.data.Timer;
@@ -35,6 +36,9 @@ public abstract class BaseTimerFragment extends Fragment implements View.OnClick
         deleteBtn.setOnClickListener(this);
 
         setAllButtonListeners((ViewGroup) view);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
     }
 
     Timer setTimerInstance() {
@@ -68,5 +72,17 @@ public abstract class BaseTimerFragment extends Fragment implements View.OnClick
      * Needs to access a different Seconds object depending on the fragment
      * */
     public abstract void updateTimer();
+
+    public static class ViewHolder {
+        public final TextView secondsText;
+        public final TextView minutesText;
+        public final TextView hoursText;
+
+        public ViewHolder(View view) {
+            secondsText = (TextView) view.findViewById(R.id.timer_seconds);
+            minutesText = (TextView) view.findViewById(R.id.timer_minutes);
+            hoursText = (TextView) view.findViewById(R.id.timer_hours);
+        }
+    }
 
 }

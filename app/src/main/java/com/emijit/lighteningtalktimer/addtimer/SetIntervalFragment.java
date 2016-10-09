@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.emijit.lighteningtalktimer.R;
 import com.emijit.lighteningtalktimer.data.Timer;
@@ -20,10 +19,6 @@ public class SetIntervalFragment extends BaseTimerFragment {
 
     private View rootView;
     private Timer mTimer;
-
-    private TextView secondsText;
-    private TextView minutesText;
-    private TextView hoursText;
 
     public SetIntervalFragment() {
     }
@@ -80,21 +75,13 @@ public class SetIntervalFragment extends BaseTimerFragment {
     }
 
     @Override
-    void setupButtons(View view) {
-        super.setupButtons(view);
-
-        // hours/min/sec
-        secondsText = (TextView) view.findViewById(R.id.timer_seconds);
-        minutesText = (TextView) view.findViewById(R.id.timer_minutes);
-        hoursText = (TextView) view.findViewById(R.id.timer_hours);
-    }
-
-    @Override
     public void updateTimer() {
         if (mTimer != null) {
-            secondsText.setText(mTimer.getIntervalSeconds().getSeconds());
-            minutesText.setText(mTimer.getIntervalSeconds().getMinutes());
-            hoursText.setText(mTimer.getIntervalSeconds().getHours());
+            ViewHolder viewHolder = (ViewHolder) rootView.getTag();
+
+            viewHolder.secondsText.setText(mTimer.getIntervalSeconds().getSeconds());
+            viewHolder.minutesText.setText(mTimer.getIntervalSeconds().getMinutes());
+            viewHolder.hoursText.setText(mTimer.getIntervalSeconds().getHours());
         }
     }
 }
