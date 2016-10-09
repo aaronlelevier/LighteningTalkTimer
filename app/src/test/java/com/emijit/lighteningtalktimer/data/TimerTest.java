@@ -43,7 +43,7 @@ public class TimerTest {
     @Test
     public void secondsLinkedList() throws Exception {
         Timer timer = new Timer();
-        Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
+        SecondsLinkedList seconds = timer.getTimerSeconds();
         int one = 1;
         int two = 2;
         assertEquals(0, seconds.getSlotsInUse());
@@ -102,7 +102,7 @@ public class TimerTest {
     @Test
     public void getSecondsMinutesAndHours() throws Exception {
         Timer timer = TimerTestUtils.createTimer();
-        Timer.SecondsLinkedList seconds = timer.getTimerSeconds();
+        SecondsLinkedList seconds = timer.getTimerSeconds();
 
         assertEquals("Error: initial setup incorrect",
                 Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
@@ -143,22 +143,6 @@ public class TimerTest {
         timerTwo.getTimerSeconds().setStrValue();
         assertEquals("Error: should be populated with the converted value after set has been called",
                 "123456", timerTwo.getTimerSeconds().getStrValue());
-    }
-
-    @Test
-    public void convertStrToList() throws Exception {
-        Timer timer = TimerTestUtils.createTimer();
-        timer.getTimerSeconds().setStrValue();
-        assertEquals("123456", timer.getTimerSeconds().getStrValue());
-
-        timer.getTimerSeconds().removeTimerItem();
-        assertEquals(Arrays.asList(0, 1, 2, 3, 4, 5), timer.getTimerSeconds());
-        assertEquals("Error: even though the list value has changed, we still have the saved strValue",
-                "123456", timer.getTimerSeconds().getStrValue());
-        timer.getTimerSeconds().convertStrToList();
-        assertEquals("Error: after calling 'convertStrToList' it should restore the list contents to the strValue",
-                Arrays.asList(1, 2, 3, 4, 5, 6), timer.getTimerSeconds());
-
     }
 
     @Test
