@@ -1,9 +1,11 @@
 package com.emijit.lighteningtalktimer.addtimer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.emijit.lighteningtalktimer.MainActivity;
 import com.emijit.lighteningtalktimer.R;
 import com.emijit.lighteningtalktimer.data.Timer;
 
@@ -47,6 +49,11 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void setDoneBtn() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override

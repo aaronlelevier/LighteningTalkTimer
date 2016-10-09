@@ -1,13 +1,12 @@
 package com.emijit.lighteningtalktimer.addtimer;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.emijit.lighteningtalktimer.R;
 import com.emijit.lighteningtalktimer.data.Timer;
@@ -22,24 +21,20 @@ public abstract class BaseTimerFragment extends Fragment implements View.OnClick
 
     private Timer mTimer;
 
-    private TextView secondsText;
-    private TextView minutesText;
-    private TextView hoursText;
-
     public BaseTimerFragment() {
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mTimer.prepareToXfr();
+    }
+
     void setupButtons(View view) {
-        // buttons
         ImageButton deleteBtn = (ImageButton) view.findViewById(R.id.delete_char_btn);
         deleteBtn.setOnClickListener(this);
 
         setAllButtonListeners((ViewGroup) view);
-
-        // hours/min/sec
-        secondsText = (TextView) view.findViewById(R.id.timer_seconds);
-        minutesText = (TextView) view.findViewById(R.id.timer_minutes);
-        hoursText = (TextView) view.findViewById(R.id.timer_hours);
     }
 
     Timer setTimerInstance() {
@@ -69,31 +64,9 @@ public abstract class BaseTimerFragment extends Fragment implements View.OnClick
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        Button b;
-        switch (v.getId()) {
-            case R.id.delete_char_btn:
-                mTimer.getTimerSeconds().removeTimerItem();
-                break;
-            default:
-                b = (Button) v;
-                int i = Integer.parseInt(b.getText().toString());
-                mTimer.getTimerSeconds().addTimerItem(i);
-                break;
-        }
-        updateTimer();
-    }
+    /**
+     * Needs to access a different Seconds object depending on the fragment
+     * */
+    public abstract void updateTimer();
 
-    private void updateTimer() {
-        secondsText.setText(mTimer.getTimerSeconds().getSeconds());
-        minutesText.setText(mTimer.getTimerSeconds().getMinutes());
-        hoursText.setText(mTimer.getTimerSeconds().getHours());
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mTimer.prepareToXfr();
-    }
 }
