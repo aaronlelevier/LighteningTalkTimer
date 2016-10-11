@@ -1,6 +1,7 @@
 package com.emijit.lighteningtalktimer.data;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -26,8 +27,8 @@ public class TimerContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE+ "/" + CONTENT_AUTHORITY + "/" + PATH_TIMER;
 
-        public static Uri buildTimerItem(String timerItem) {
-            return CONTENT_URI.buildUpon().appendPath(timerItem).build();
+        public static Uri buildTimerItem(Long rowId) {
+            return ContentUris.withAppendedId(CONTENT_URI, rowId);
         }
     }
 }

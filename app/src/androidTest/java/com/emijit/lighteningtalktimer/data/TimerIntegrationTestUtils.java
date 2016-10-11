@@ -1,10 +1,15 @@
 package com.emijit.lighteningtalktimer.data;
 
 import android.content.ContentValues;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
+import com.emijit.lighteningtalktimer.utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;
@@ -33,4 +38,45 @@ public class TimerIntegrationTestUtils extends AndroidTestCase {
                     expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
         }
     }
+
+    public static class TestContentObserver extends ContentObserver {
+        final HandlerThread mHT;
+        boolean mContentChanged;
+
+        static TestContentObserver getTestContentObserver() {
+            HandlerThread ht = new HandlerThread("ContentObserverThread");
+            ht.start();
+            return new TestContentObserver(ht);
+        }
+
+        public TestContentObserver(HandlerThread ht) {
+            super(new Handler(ht.getLooper()));
+            mHT = ht;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            onChange(selfChange, null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            mContentChanged = true;
+        }
+
+        public void waitForNotificationOrFail() {
+            new PollingCheck(5000) {
+                @Override
+                protected boolean check() {
+                    return mContentChanged;
+                }
+            }.run();
+            mHT.quit();
+        }
+    }
+
+    static TestContentObserver getTestContentObserver() {
+        return TestContentObserver.getTestContentObserver();
+    }
+
 }
