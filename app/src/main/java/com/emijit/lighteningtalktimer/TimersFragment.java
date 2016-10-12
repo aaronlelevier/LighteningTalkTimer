@@ -1,11 +1,13 @@
 package com.emijit.lighteningtalktimer;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
@@ -16,6 +18,11 @@ import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 public class TimersFragment extends Fragment {
 
     public TimersFragment() {
+    }
+
+    public interface Callback {
+
+        void onItemSelected(Uri uri);
     }
 
     @Override
@@ -31,9 +38,19 @@ public class TimersFragment extends Fragment {
                 null,
                 null
         );
-        TimerAdapter adapter = new TimerAdapter(getActivity(), cursor, 0);
+        final TimerAdapter adapter = new TimerAdapter(getActivity(), cursor, 0);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_timers);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long rowId) {
+                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                if (cursor != null) {
+                    ((Callback) getActivity())
+                            .onItemSelected(TimerEntry.buildTimerItem(rowId));
+                }
+            }
+        });
 
         return rootView;
     }

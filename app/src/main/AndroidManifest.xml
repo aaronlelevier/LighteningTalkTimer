@@ -9,8 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:authorities="com.emijit.lighteningtalktimer"
-            android:name=".data.TimerProvider" />
+            android:name=".data.TimerProvider"
+            android:authorities="com.emijit.lighteningtalktimer" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -29,6 +30,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".RunTimerActivity"
+            android:label="@string/title_activity_run_timer"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.emijit.lighteningtalktimer.MainActivity" />
         </activity>
     </application>
 

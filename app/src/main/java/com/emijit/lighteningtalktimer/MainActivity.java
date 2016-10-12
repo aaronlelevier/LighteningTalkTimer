@@ -1,6 +1,7 @@
 package com.emijit.lighteningtalktimer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import android.view.View;
 
 import com.emijit.lighteningtalktimer.addtimer.AddTimerActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TimersFragment.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +56,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(Uri uri) {
+        Intent intent = new Intent(this, RunTimerActivity.class)
+                .setData(uri);
+        startActivity(intent);
     }
 }
