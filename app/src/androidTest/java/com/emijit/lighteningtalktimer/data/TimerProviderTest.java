@@ -3,38 +3,47 @@ package com.emijit.lighteningtalktimer.data;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class TimerProviderTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    private SQLiteDatabase db;
+
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class TimerProviderTest {
+
     private Cursor cursor;
+    private Context mContext;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
+        mContext = InstrumentationRegistry.getTargetContext();
         deleteAllRecords();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        if (db != null) {
-            db.close();
-        }
+    @After
+    public void tearDown() {
         if (cursor != null) {
             cursor.close();
         }
     }
 
+    @Test
     public void testProviderRegistry() {
         PackageManager pm = mContext.getPackageManager();
         ComponentName componentName = new ComponentName(mContext.getPackageName(),
@@ -50,6 +59,7 @@ public class TimerProviderTest extends AndroidTestCase {
         }
     }
 
+    @Test
     public void testGetType() {
         // List
         String type = mContext.getContentResolver().getType(TimerEntry.CONTENT_URI);
@@ -63,6 +73,7 @@ public class TimerProviderTest extends AndroidTestCase {
                 type, TimerEntry.CONTENT_ITEM_TYPE);
     }
 
+    @Test
     public void testQuery() {
         ContentValues testValues = TimerIntegrationTestUtils.createTimerValues();
 
@@ -82,6 +93,7 @@ public class TimerProviderTest extends AndroidTestCase {
                 "Error: inserted data doesn't match testValues", cursor, testValues);
     }
 
+    @Test
     public void testInsert() {
         ContentValues testValues = TimerIntegrationTestUtils.createTimerValues();
 
@@ -103,6 +115,7 @@ public class TimerProviderTest extends AndroidTestCase {
                 timerRowId != -1);
     }
 
+    @Test
     public void testDelete() {
         testInsert();
 
@@ -116,7 +129,7 @@ public class TimerProviderTest extends AndroidTestCase {
         mContext.getContentResolver().unregisterContentObserver(tco);
     }
 
-    private void deleteAllRecords() {
+    public void deleteAllRecords() {
         mContext.getContentResolver().delete(TimerEntry.CONTENT_URI, null, null);
         cursor = mContext.getContentResolver().query(
                 TimerEntry.CONTENT_URI,

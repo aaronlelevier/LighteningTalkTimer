@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.test.AndroidTestCase;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 import com.emijit.lighteningtalktimer.utils.PollingCheck;
@@ -14,7 +13,11 @@ import com.emijit.lighteningtalktimer.utils.PollingCheck;
 import java.util.Map;
 import java.util.Set;
 
-public class TimerIntegrationTestUtils extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+
+public class TimerIntegrationTestUtils {
 
     private static final String COLUMN_ADD_TIMER = "050000";
     private static final String COLUMN_SET_INTERVAL = "010000";

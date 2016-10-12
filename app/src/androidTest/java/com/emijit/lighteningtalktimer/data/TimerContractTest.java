@@ -1,22 +1,41 @@
 package com.emijit.lighteningtalktimer.data;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.AndroidTestCase;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.HashSet;
 
-public class TimerContractTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class TimerContractTest {
 
     private SQLiteDatabase db;
     private Cursor cursor;
+    private Context mContext;
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @Before
+    public void setUp() {
+        mContext = InstrumentationRegistry.getTargetContext();
+    }
+
+    @After
+    public void tearDown() {
         if (db != null) {
             db.close();
         }
@@ -25,6 +44,7 @@ public class TimerContractTest extends AndroidTestCase {
         }
     }
 
+    @Test
     public void testCreateDb() {
         final HashSet<String> tableNameHashSet = new HashSet<>();
         tableNameHashSet.add(TimerContract.TimerEntry.TABLE_NAME);
@@ -64,6 +84,7 @@ public class TimerContractTest extends AndroidTestCase {
                 timerColumnHashSet.isEmpty());
     }
 
+    @Test
     public void testCreateTimerTable() {
         db = new TimerDbHelper(mContext).getWritableDatabase();
 
@@ -89,9 +110,5 @@ public class TimerContractTest extends AndroidTestCase {
 
         TimerIntegrationTestUtils.validateCurrentRecord("Error: records don't match",
                 cursor, testValues);
-
-        // no more records exist
-        assertFalse("Error: only one record should exist",
-                cursor.moveToNext());
     }
 }
