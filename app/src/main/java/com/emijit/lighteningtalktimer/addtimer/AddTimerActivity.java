@@ -9,6 +9,8 @@ import com.emijit.lighteningtalktimer.MainActivity;
 import com.emijit.lighteningtalktimer.R;
 import com.emijit.lighteningtalktimer.data.Timer;
 
+import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
+
 public class AddTimerActivity extends AppCompatActivity implements TimerContract.AddTimerCallback {
 
     private static final String LOG_TAG = AddTimerActivity.class.getSimpleName();
@@ -53,6 +55,10 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
 
     @Override
     public void setDoneBtn() {
+        this.getContentResolver().insert(
+                TimerEntry.CONTENT_URI,
+                mTimer.getContentValues()
+        );
         startActivity(new Intent(this, MainActivity.class));
     }
 

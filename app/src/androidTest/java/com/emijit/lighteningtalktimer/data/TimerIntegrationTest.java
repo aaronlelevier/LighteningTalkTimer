@@ -1,16 +1,25 @@
 package com.emijit.lighteningtalktimer.data;
 
+import android.content.ContentValues;
 import android.os.Parcel;
+
+import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by aaron on 10/6/16.
- */
-
 public class TimerIntegrationTest {
+
+    @Test
+    public void getContentValues() {
+        Timer timer = new Timer();
+
+        ContentValues contentValues = timer.getContentValues();
+
+        assertEquals(timer.getTimerSecondsStrValue(), contentValues.getAsString(TimerEntry.COLUMN_ADD_TIMER));
+        assertEquals(timer.getIntervalSecondsStrValue(), contentValues.getAsString(TimerEntry.COLUMN_SET_INTERVAL));
+    }
 
     @Test
     public void timerIsParcelable() throws Exception {

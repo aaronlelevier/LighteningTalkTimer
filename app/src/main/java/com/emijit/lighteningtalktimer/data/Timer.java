@@ -1,8 +1,10 @@
 package com.emijit.lighteningtalktimer.data;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 import com.google.common.base.Objects;
 
 import java.util.UUID;
@@ -56,6 +58,14 @@ public class Timer implements Parcelable {
     public void prepareToXfr() {
         setTimerSecondsStrValue();
         setIntervalSecondsStrValue();
+    }
+
+    public ContentValues getContentValues() {
+        prepareToXfr();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TimerEntry.COLUMN_ADD_TIMER, getTimerSecondsStrValue());
+        contentValues.put(TimerEntry.COLUMN_SET_INTERVAL, getIntervalSecondsStrValue());
+        return contentValues;
     }
 
     @Override
