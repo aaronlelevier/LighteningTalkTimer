@@ -13,6 +13,7 @@ public class RunTimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_timer);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,8 +23,16 @@ public class RunTimerActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new RunTimerFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(RunTimerFragment.URI, getIntent().getData());
+
+            RunTimerFragment fragment = new RunTimerFragment();
+            fragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, fragment)
+                    .commit();
+        }
     }
 }
