@@ -17,12 +17,19 @@ public class Seconds extends LinkedList<Integer> {
         super(Arrays.asList(0, 0, 0, 0, 0, 0));
     }
 
-    public int getSlotsInUse() {
-        return mSlotsInUse;
+    public Seconds(String s) {
+        String[] arr = s.split("");
+        for (String a:arr) {
+            try {
+                addLast(Integer.parseInt(a));
+            } catch (NumberFormatException e) {
+                // silently pass when leading "" is attempted to be parseInt'd
+            }
+        }
     }
 
-    public void setSlotsInUse(int mSlotsInUse) {
-        this.mSlotsInUse = mSlotsInUse;
+    public int getSlotsInUse() {
+        return mSlotsInUse;
     }
 
     public void addTimerItem(int i) {

@@ -18,6 +18,15 @@ public class SecondsTest {
         assertEquals("", seconds.getStrValue());
     }
 
+    @Test
+    public void initWithSecondsStr() {
+        String secondsStr = "123456";
+
+        Seconds seconds = new Seconds(secondsStr);
+
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), seconds);
+    }
+
     // addTimerItem
 
     @Test

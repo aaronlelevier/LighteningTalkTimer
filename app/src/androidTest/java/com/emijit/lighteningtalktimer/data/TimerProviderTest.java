@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -141,5 +143,26 @@ public class TimerProviderTest {
         );
         assertTrue(cursor != null);
         assertEquals(0, cursor.getCount());
+    }
+
+    @Test
+    public void testGetValuesFromCursor() {
+        testInsert();
+        cursor = mContext.getContentResolver().query(
+                TimerEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assertTrue(cursor != null);
+        assertEquals(1, cursor.getCount());
+        cursor.moveToFirst();
+
+        Timer timer = new Timer(cursor);
+
+        assertEquals(Arrays.asList(0, 5, 0, 0, 0, 0), timer.getTimerSeconds());
+        assertEquals(Arrays.asList(0, 1, 0, 0, 0, 0), timer.getIntervalSeconds());
     }
 }

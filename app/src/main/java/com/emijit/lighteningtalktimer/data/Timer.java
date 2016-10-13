@@ -1,6 +1,7 @@
 package com.emijit.lighteningtalktimer.data;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,6 +22,12 @@ public class Timer implements Parcelable {
         mId = UUID.randomUUID().toString();
         mTimerSeconds = new Seconds();
         mIntervalSeconds = new Seconds();
+    }
+
+    public Timer(Cursor cursor) {
+        mId = UUID.randomUUID().toString();
+        mTimerSeconds = new Seconds(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER)));
+        mIntervalSeconds = new Seconds(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL)));
     }
 
     public String getId() {
