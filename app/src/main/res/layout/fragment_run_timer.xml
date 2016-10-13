@@ -13,7 +13,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/run_timer_interval_count"
+        android:id="@+id/run_timer_intervals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@android:dimen/app_icon_size"

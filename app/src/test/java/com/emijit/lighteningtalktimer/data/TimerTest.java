@@ -69,4 +69,34 @@ public class TimerTest {
         assertEquals("000012", timer.getTimerSecondsStrValue());
         assertEquals("000034", timer.getIntervalSecondsStrValue());
     }
+
+    @Test
+    public void intervals() {
+        Timer timer = new Timer();
+
+        timer.getTimerSeconds().addTimerItem(0);
+        timer.getTimerSeconds().addTimerItem(0);
+        timer.getTimerSeconds().addTimerItem(0);
+        timer.getTimerSeconds().addTimerItem(5);
+        timer.getTimerSeconds().addTimerItem(0);
+        timer.getTimerSeconds().addTimerItem(0);
+
+        timer.getIntervalSeconds().addTimerItem(0);
+        timer.getIntervalSeconds().addTimerItem(0);
+        timer.getIntervalSeconds().addTimerItem(0);
+        timer.getIntervalSeconds().addTimerItem(1);
+        timer.getIntervalSeconds().addTimerItem(0);
+        timer.getIntervalSeconds().addTimerItem(0);
+
+        timer.prepareToXfr();
+
+        assertEquals("000500", timer.getTimerSecondsStrValue());
+        assertEquals("000100", timer.getIntervalSecondsStrValue());
+
+        assertEquals(0, timer.getIntervals());
+
+        timer.setIntervals();
+
+        assertEquals(5, timer.getIntervals());
+    }
 }

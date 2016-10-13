@@ -12,6 +12,7 @@ public class Seconds extends LinkedList<Integer> {
 
     private int mSlotsInUse = INITIAL_SLOTS;
     private String mStrValue = "";
+    private int mRawSeconds = 0;
 
     public Seconds() {
         super(Arrays.asList(0, 0, 0, 0, 0, 0));
@@ -66,6 +67,20 @@ public class Seconds extends LinkedList<Integer> {
 
     public void setStrValue() {
         mStrValue = convertStrValue();
+    }
+
+    public int getRawSeconds() {
+        return mRawSeconds;
+    }
+
+    public void setRawSeconds() {
+        int rawSeconds = 0;
+
+        rawSeconds += Integer.parseInt(getSeconds());
+        rawSeconds += Integer.parseInt(getMinutes()) * 60;
+        rawSeconds += Integer.parseInt(getHours()) * 3600;
+
+        mRawSeconds = rawSeconds;
     }
 
     public String convertStrValue() {

@@ -169,4 +169,19 @@ public class SecondsTest {
         assertEquals("014039", seconds.getStrValue());
     }
 
+    // rawSeconds
+
+    @Test
+    public void rawSeconds() {
+        String secondsStr = "010500";
+        Seconds seconds = new Seconds(secondsStr);
+        assertEquals(Arrays.asList(0, 1, 0, 5, 0, 0), seconds);
+
+        assertEquals(0, seconds.getRawSeconds());
+
+        seconds.setRawSeconds();
+
+        // 3600 sec for 1 hour + 300 sec for 1 minute
+        assertEquals(3600+300, seconds.getRawSeconds());
+    }
 }
