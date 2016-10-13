@@ -163,6 +163,8 @@ public class TimerProviderTest {
         Timer timer = new Timer(cursor);
 
         assertEquals(Arrays.asList(0, 5, 0, 0, 0, 0), timer.getTimerSeconds());
+        assertEquals("050000", timer.getTimerSecondsStrValue());
         assertEquals(Arrays.asList(0, 1, 0, 0, 0, 0), timer.getIntervalSeconds());
+        assertEquals("010000", timer.getIntervalSecondsStrValue());
     }
 }

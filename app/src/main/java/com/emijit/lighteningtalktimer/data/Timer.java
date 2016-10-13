@@ -26,8 +26,10 @@ public class Timer implements Parcelable {
 
     public Timer(Cursor cursor) {
         mId = UUID.randomUUID().toString();
-        mTimerSeconds = new Seconds(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER)));
-        mIntervalSeconds = new Seconds(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL)));
+        mTimerSecondsStrValue = cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER));
+        mIntervalSecondsStrValue = cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL));
+        mTimerSeconds = new Seconds(mTimerSecondsStrValue);
+        mIntervalSeconds = new Seconds(mIntervalSecondsStrValue);
     }
 
     public String getId() {

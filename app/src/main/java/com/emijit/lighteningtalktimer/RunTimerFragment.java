@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.emijit.lighteningtalktimer.data.Timer;
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
 
@@ -21,6 +23,7 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final String LOG_TAG = RunTimerFragment.class.getSimpleName();
 
+    private View rootView;
     private Uri mUri;
     private long mTimerId = 0;
 
@@ -31,10 +34,21 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     public RunTimerFragment() {
     }
 
+    static class ViewHolder {
+        TextView timerSeconds;
+
+        public ViewHolder(View view) {
+            timerSeconds = (TextView) view.findViewById(R.id.run_timer_seconds);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_run_timer, container, false);
+        rootView = inflater.inflate(R.layout.fragment_run_timer, container, false);
+
+        ViewHolder viewHolder = new ViewHolder(rootView);
+        rootView.setTag(viewHolder);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -69,10 +83,15 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            String seconds = data.getString(1);
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor != null && cursor.moveToFirst()) {
+            String seconds = cursor.getString(1);
             Log.d(LOG_TAG, "onLoadFinished - seconds: " + seconds);
+
+            Timer timer = new Timer(cursor);
+
+            ViewHolder viewHolder = (ViewHolder) rootView.getTag();
+            viewHolder.timerSeconds.setText(timer.getTimerSecondsStrValue());
         }
     }
 
