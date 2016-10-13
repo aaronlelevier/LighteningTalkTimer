@@ -69,10 +69,25 @@ public class Seconds extends LinkedList<Integer> {
     }
 
     public String convertStrValue() {
+        int sec = 0;
+        int min = 0;
+        int hour = 0;
+
+        int totalSeconds = Integer.parseInt(getSeconds());
+        min += totalSeconds / 60;
+        sec += totalSeconds % 60;
+
+        int totalMinutes = Integer.parseInt(getMinutes());
+        hour += totalMinutes / 60;
+        min += totalMinutes % 60;
+
+        int totalHours = Integer.parseInt(getHours());
+        hour += totalHours;
+
         StringBuilder sb = new StringBuilder();
-        for (int i=0; i < size(); i++) {
-            sb.append(get(i));
-        }
+        sb.append(String.format("%02d", hour));
+        sb.append(String.format("%02d", min));
+        sb.append(String.format("%02d", sec));
         return sb.toString();
     }
 }

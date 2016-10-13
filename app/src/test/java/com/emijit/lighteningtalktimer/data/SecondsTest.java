@@ -129,7 +129,7 @@ public class SecondsTest {
         assertEquals("56", seconds.getSeconds());
     }
 
-    // strValue
+    // getStrValue
 
     @Test
     public void getStrValue() {
@@ -138,6 +138,8 @@ public class SecondsTest {
 
         assertEquals("", seconds.getStrValue());
     }
+
+    // setStrValue
 
     @Test
     public void setStrValue() {
@@ -150,4 +152,21 @@ public class SecondsTest {
 
         assertEquals("123456", seconds.getStrValue());
     }
+
+    @Test
+    public void setStrValueForExcessTimeValues() {
+        Seconds seconds = new Seconds();
+        seconds.addTimerItem(0);
+        seconds.addTimerItem(0);
+        seconds.addTimerItem(9);
+        seconds.addTimerItem(9);
+        seconds.addTimerItem(9);
+        seconds.addTimerItem(9);
+        assertEquals(Arrays.asList(0, 0, 9, 9, 9, 9), seconds);
+
+        seconds.setStrValue();
+
+        assertEquals("014039", seconds.getStrValue());
+    }
+
 }
