@@ -10,7 +10,7 @@ import com.google.common.base.Objects;
 
 import java.util.UUID;
 
-public class Timer implements Parcelable {
+public class    Timer implements Parcelable {
 
     private final String mId;
     private Seconds mTimerSeconds;
@@ -18,6 +18,7 @@ public class Timer implements Parcelable {
     private String mTimerSecondsStrValue = "";
     private String mIntervalSecondsStrValue = "";
     private int mIntervals = 0;
+    private int mCurrentIntervalCount = 0;
 
     public Timer() {
         mId = UUID.randomUUID().toString();
@@ -31,6 +32,7 @@ public class Timer implements Parcelable {
         mIntervalSecondsStrValue = cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL));
         mTimerSeconds = new Seconds(mTimerSecondsStrValue);
         mIntervalSeconds = new Seconds(mIntervalSecondsStrValue);
+        setIntervals();
     }
 
     public String getId() {
@@ -68,13 +70,21 @@ public class Timer implements Parcelable {
     public void setIntervals() {
         getTimerSeconds().setRawSeconds();
         getIntervalSeconds().setRawSeconds();
-        this.mIntervals = getTimerSeconds().getRawSeconds() / getIntervalSeconds().getRawSeconds();
+        mIntervals = getTimerSeconds().getRawSeconds() / getIntervalSeconds().getRawSeconds();
+    }
+
+    public int getCurrentIntervalCount() {
+        return mCurrentIntervalCount;
+    }
+
+    public void setCurrentIntervalCount(int i) {
+        this.mCurrentIntervalCount = i;
     }
 
     /*
-        * Sets lists to primitive String values on the Timer. To be called before
-        * sending a Timer instance through a Fragment Bundle.
-        * */
+            * Sets lists to primitive String values on the Timer. To be called before
+            * sending a Timer instance through a Fragment Bundle.
+            * */
     public void prepareToXfr() {
         setTimerSecondsStrValue();
         setIntervalSecondsStrValue();

@@ -146,7 +146,7 @@ public class TimerProviderTest {
     }
 
     @Test
-    public void testGetValuesFromCursor() {
+    public void initCursor() {
         testInsert();
         cursor = mContext.getContentResolver().query(
                 TimerEntry.CONTENT_URI,
@@ -166,5 +166,8 @@ public class TimerProviderTest {
         assertEquals("050000", timer.getTimerSecondsStrValue());
         assertEquals(Arrays.asList(0, 1, 0, 0, 0, 0), timer.getIntervalSeconds());
         assertEquals("010000", timer.getIntervalSecondsStrValue());
+        assertEquals(5*3600, timer.getTimerSeconds().getRawSeconds());
+        assertEquals(1*3600, timer.getIntervalSeconds().getRawSeconds());
+        assertEquals(5, timer.getIntervals());
     }
 }
