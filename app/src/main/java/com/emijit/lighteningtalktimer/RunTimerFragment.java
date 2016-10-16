@@ -38,13 +38,9 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
 
     static class ViewHolder {
         TextView intervals;
-        TextView timerSeconds;
-        TextView intervalSeconds;
 
         public ViewHolder(View view) {
             intervals = (TextView) view.findViewById(R.id.run_timer_intervals);
-            timerSeconds = (TextView) view.findViewById(R.id.run_timer_timer_seconds);
-            intervalSeconds = (TextView) view.findViewById(R.id.run_timer_interval_seconds);
         }
     }
 
@@ -92,14 +88,6 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && cursor.moveToFirst()) {
             mTimer = new Timer(cursor);
-
-            Log.d(LOG_TAG, "timer seconds: + " + mTimer.getTimerSeconds().getRawSeconds() +
-                           " interval seconds: " + mTimer.getIntervalSeconds().getRawSeconds() +
-                           " intervals: " + mTimer.getIntervals());
-
-            ViewHolder viewHolder = (ViewHolder) rootView.getTag();
-            viewHolder.timerSeconds.setText(mTimer.getTimerSecondsStrValue());
-            viewHolder.intervalSeconds.setText(mTimer.getIntervalSecondsStrValue());
         }
     }
 
