@@ -3,6 +3,7 @@ package com.emijit.lighteningtalktimer;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     private View rootView;
     private Uri mUri;
     private long mTimerId = 0;
+    private Timer mTimer;
 
     private static final int DETAIL_LOADER = 0;
 
@@ -89,19 +91,63 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && cursor.moveToFirst()) {
-            Timer timer = new Timer(cursor);
+            mTimer = new Timer(cursor);
 
-            Log.d(LOG_TAG, "timer seconds: + " + timer.getTimerSeconds().getRawSeconds() +
-                           " interval seconds: " + timer.getIntervalSeconds().getRawSeconds() +
-                           " intervals: " + timer.getIntervals());
+            Log.d(LOG_TAG, "timer seconds: + " + mTimer.getTimerSeconds().getRawSeconds() +
+                           " interval seconds: " + mTimer.getIntervalSeconds().getRawSeconds() +
+                           " intervals: " + mTimer.getIntervals());
 
             ViewHolder viewHolder = (ViewHolder) rootView.getTag();
-            viewHolder.timerSeconds.setText(timer.getTimerSecondsStrValue());
-            viewHolder.intervalSeconds.setText(timer.getIntervalSecondsStrValue());
+            viewHolder.timerSeconds.setText(mTimer.getTimerSecondsStrValue());
+            viewHolder.intervalSeconds.setText(mTimer.getIntervalSecondsStrValue());
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    public void startTimer() {
+        new RunTimerTask().execute(mTimer);
+    }
+
+    private class RunTimerTask extends AsyncTask<Timer, Integer, Long> {
+
+        private final String LOG_TAG = RunTimerTask.class.getSimpleName();
+
+        @Override
+        protected Long doInBackground(Timer... params) {
+            int mCurrentIntervals = 0;
+            Timer timer = params[0];
+
+            while (timer.getIntervals() > mCurrentIntervals) {
+                try {
+                    Thread.sleep(timer.getIntervalSeconds().getRawSeconds() * 1000);
+                } catch (InterruptedException e) {
+                    Log.d(LOG_TAG, e.toString());
+                }
+                mCurrentIntervals++;
+                publishProgress(mCurrentIntervals);
+            }
+            return (long) mCurrentIntervals;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            String interval = Integer.toString(values[0]);
+            Log.d(LOG_TAG, "onProgressUpdate: " + interval);
+
+            // update view w/ current interval
+            ViewHolder viewHolder = (ViewHolder) rootView.getTag();
+            viewHolder.intervals.setText(interval);
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            super.onPostExecute(aLong);
+            Log.d(LOG_TAG, "onPostExecute");
+        }
     }
 }

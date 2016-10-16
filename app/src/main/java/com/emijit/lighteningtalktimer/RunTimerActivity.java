@@ -8,17 +8,22 @@ import android.view.View;
 
 public class RunTimerActivity extends AppCompatActivity {
 
+    private RunTimerFragment mRunTimerFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_timer);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                if (mRunTimerFragment != null) {
+                    mRunTimerFragment.startTimer();
+                }
+
+                Snackbar.make(view, "RunTimer started", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -27,11 +32,11 @@ public class RunTimerActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putParcelable(RunTimerFragment.URI, getIntent().getData());
 
-            RunTimerFragment fragment = new RunTimerFragment();
-            fragment.setArguments(arguments);
+            mRunTimerFragment = new RunTimerFragment();
+            mRunTimerFragment.setArguments(arguments);
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
+                    .add(R.id.container, mRunTimerFragment)
                     .commit();
         }
     }

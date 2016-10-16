@@ -22,10 +22,11 @@ public class Runner implements Runnable {
     public void run() {
         while (mTimer.getIntervals() > mCurrentIntervals) {
             try {
-                Thread.sleep(mTimer.getIntervalSeconds().getRawSeconds());
+                Thread.sleep(mTimer.getIntervalSeconds().getRawSeconds() * 1000);
             } catch (InterruptedException e) {
                 Log.d(LOG_TAG, e.toString());
             }
+            Log.d(LOG_TAG, "Runner.run: " + mCurrentIntervals);
             mCurrentIntervals++;
             mTimer.setCurrentIntervalCount(mCurrentIntervals);
         }

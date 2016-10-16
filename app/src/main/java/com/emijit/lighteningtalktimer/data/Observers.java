@@ -8,7 +8,7 @@ import android.os.HandlerThread;
 
 public class Observers {
 
-    static TimerObserver getTimerObserver(Timer timer) {
+    public static TimerObserver getTimerObserver(Timer timer) {
         return TimerObserver.getTimerObserver(timer);
     }
 
