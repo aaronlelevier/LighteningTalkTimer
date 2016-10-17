@@ -55,6 +55,7 @@ public class AddTimerActivity extends AppCompatActivity implements TimerContract
 
     @Override
     public void setDoneBtn() {
+        mTimer.setIntervals();
         this.getContentResolver().insert(
                 TimerEntry.CONTENT_URI,
                 mTimer.getContentValues()

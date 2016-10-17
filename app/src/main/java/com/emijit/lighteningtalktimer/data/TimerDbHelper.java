@@ -20,9 +20,10 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_TIMER_TABLE = "CREATE TABLE " + TimerEntry.TABLE_NAME + " (" +
-                TimerEntry._ID + " INTEGER PRIMARY KEY," +
-                TimerEntry.COLUMN_ADD_TIMER + " TEXT NOT NULL," +
-                TimerEntry.COLUMN_SET_INTERVAL + " TEXT NOT NULL" +
+                TimerEntry._ID + " INTEGER PRIMARY KEY, " +
+                TimerEntry.COLUMN_ADD_TIMER + " TEXT NOT NULL, " +
+                TimerEntry.COLUMN_SET_INTERVAL + " TEXT NOT NULL, " +
+                TimerEntry.COLUMN_INTERVALS + " INTEGER NULL" +
                 " );";
         db.execSQL(SQL_CREATE_TIMER_TABLE);
     }

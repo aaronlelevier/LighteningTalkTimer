@@ -167,7 +167,6 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
             }
         }
 
-
         @Override
         protected void onPostExecute(Long aLong) {
             super.onPostExecute(aLong);

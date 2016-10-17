@@ -18,12 +18,12 @@ public class TimerAdapter extends CursorAdapter {
     }
 
     static class ViewHolder {
-        final TextView idText;
+        final TextView numberOfIntervalsText;
         final TextView timerText;
         final TextView intervalText;
 
         ViewHolder(View view) {
-            idText = (TextView) view.findViewById(R.id.list_timer_id);
+            numberOfIntervalsText = (TextView) view.findViewById(R.id.list_number_of_intervals_text);
             timerText = (TextView) view.findViewById(R.id.list_timer_text);
             intervalText = (TextView) view.findViewById(R.id.list_interval_text);
         }
@@ -40,7 +40,7 @@ public class TimerAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.idText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ID)));
+        viewHolder.numberOfIntervalsText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_INTERVALS)));
         viewHolder.timerText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER)));
         viewHolder.intervalText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL)));
     }

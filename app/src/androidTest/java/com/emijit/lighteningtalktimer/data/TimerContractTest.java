@@ -73,6 +73,7 @@ public class TimerContractTest {
         timerColumnHashSet.add(TimerEntry._ID);
         timerColumnHashSet.add(TimerEntry.COLUMN_ADD_TIMER);
         timerColumnHashSet.add(TimerEntry.COLUMN_SET_INTERVAL);
+        timerColumnHashSet.add(TimerEntry.COLUMN_INTERVALS);
 
         int columnDescIndex = cursor.getColumnIndex("name");
         do {

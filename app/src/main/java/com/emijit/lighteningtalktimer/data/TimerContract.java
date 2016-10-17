@@ -15,6 +15,7 @@ public class TimerContract {
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_ADD_TIMER = "add_timer";
         public static final String COLUMN_SET_INTERVAL = "set_interval";
+        public static final String COLUMN_INTERVALS = "intervals";
 
         public static final String CONTENT_AUTHORITY = "com.emijit.lighteningtalktimer";
 

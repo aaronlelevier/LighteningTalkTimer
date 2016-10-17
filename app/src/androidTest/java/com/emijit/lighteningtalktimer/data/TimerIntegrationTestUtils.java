@@ -21,11 +21,13 @@ public class TimerIntegrationTestUtils {
 
     private static final String COLUMN_ADD_TIMER = "050000";
     private static final String COLUMN_SET_INTERVAL = "010000";
+    private static final int COLUMN_INTERVALS = 5;
 
     static ContentValues createTimerValues() {
         ContentValues testValues = new ContentValues();
         testValues.put(TimerEntry.COLUMN_ADD_TIMER, COLUMN_ADD_TIMER);
         testValues.put(TimerEntry.COLUMN_SET_INTERVAL, COLUMN_SET_INTERVAL);
+        testValues.put(TimerEntry.COLUMN_INTERVALS, COLUMN_INTERVALS);
         return testValues;
     }
 

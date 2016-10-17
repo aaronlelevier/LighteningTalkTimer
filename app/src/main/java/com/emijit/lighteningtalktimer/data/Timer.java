@@ -18,7 +18,6 @@ public class    Timer implements Parcelable {
     private String mTimerSecondsStrValue = "";
     private String mIntervalSecondsStrValue = "";
     private int mIntervals = 0;
-    private int mCurrentIntervalCount = 0;
 
     public Timer() {
         mId = UUID.randomUUID().toString();
@@ -73,18 +72,10 @@ public class    Timer implements Parcelable {
         mIntervals = getTimerSeconds().getRawSeconds() / getIntervalSeconds().getRawSeconds();
     }
 
-    public int getCurrentIntervalCount() {
-        return mCurrentIntervalCount;
-    }
-
-    public void setCurrentIntervalCount(int i) {
-        this.mCurrentIntervalCount = i;
-    }
-
-    /*
-            * Sets lists to primitive String values on the Timer. To be called before
-            * sending a Timer instance through a Fragment Bundle.
-            * */
+    /**
+     * Sets lists to primitive String values on the Timer. To be called before
+     * sending a Timer instance through a Fragment Bundle.
+     **/
     public void prepareToXfr() {
         setTimerSecondsStrValue();
         setIntervalSecondsStrValue();
@@ -95,6 +86,7 @@ public class    Timer implements Parcelable {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TimerEntry.COLUMN_ADD_TIMER, getTimerSecondsStrValue());
         contentValues.put(TimerEntry.COLUMN_SET_INTERVAL, getIntervalSecondsStrValue());
+        contentValues.put(TimerEntry.COLUMN_INTERVALS, getIntervals());
         return contentValues;
     }
 

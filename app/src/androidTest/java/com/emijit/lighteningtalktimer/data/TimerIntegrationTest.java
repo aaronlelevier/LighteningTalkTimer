@@ -19,6 +19,7 @@ public class TimerIntegrationTest {
 
         assertEquals(timer.getTimerSecondsStrValue(), contentValues.getAsString(TimerEntry.COLUMN_ADD_TIMER));
         assertEquals(timer.getIntervalSecondsStrValue(), contentValues.getAsString(TimerEntry.COLUMN_SET_INTERVAL));
+        assertEquals(timer.getIntervals(), (int) contentValues.getAsInteger(TimerEntry.COLUMN_INTERVALS));
     }
 
     @Test
