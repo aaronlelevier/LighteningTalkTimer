@@ -12,6 +12,7 @@ public class TimerContract {
 
         public static final String TABLE_NAME = "timer";
 
+        public static final String COLUMN_ID = "_id";
         public static final String COLUMN_ADD_TIMER = "add_timer";
         public static final String COLUMN_SET_INTERVAL = "set_interval";
 

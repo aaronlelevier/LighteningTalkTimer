@@ -28,6 +28,7 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     private Uri mUri;
     private long mTimerId = 0;
     private Timer mTimer;
+    private RunTimerTask mRunTimerTask;
 
     private static final int DETAIL_LOADER = 0;
 
@@ -38,9 +39,15 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
 
     static class ViewHolder {
         TextView intervals;
+        TextView timerSeconds;
+        TextView timerMinutes;
+        TextView timerHours;
 
         public ViewHolder(View view) {
             intervals = (TextView) view.findViewById(R.id.run_timer_intervals);
+            timerSeconds = (TextView) view.findViewById(R.id.timer_seconds);
+            timerMinutes = (TextView) view.findViewById(R.id.timer_minutes);
+            timerHours = (TextView) view.findViewById(R.id.timer_hours);
         }
     }
 
@@ -57,6 +64,7 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
             mUri = arguments.getParcelable(URI);
             if (mUri != null) {
                 mTimerId = ContentUris.parseId(mUri);
+                Log.d(LOG_TAG, "mTimerId: " + mTimerId);
             }
         }
 
@@ -96,26 +104,38 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void startTimer() {
-        new RunTimerTask().execute(mTimer);
+        mRunTimerTask = new RunTimerTask();
+        mRunTimerTask.execute(mTimer);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mRunTimerTask.cancel(true);
     }
 
     private class RunTimerTask extends AsyncTask<Timer, Integer, Long> {
 
         private final String LOG_TAG = RunTimerTask.class.getSimpleName();
 
+        Timer mTimer;
+        int mCurrentSeconds = 0;
+        int mCurrentIntervals = 0;
+
         @Override
         protected Long doInBackground(Timer... params) {
-            int mCurrentIntervals = 0;
-            Timer timer = params[0];
+            Log.d(LOG_TAG, "doInBackground");
+            mTimer = params[0];
 
-            while (timer.getIntervals() > mCurrentIntervals) {
+            while (mTimer.getIntervals() > mCurrentIntervals) {
                 try {
-                    Thread.sleep(timer.getIntervalSeconds().getRawSeconds() * 1000);
+                    Thread.sleep(1000);
+                    mCurrentSeconds++;
+                    publishProgress(mCurrentSeconds);
                 } catch (InterruptedException e) {
                     Log.d(LOG_TAG, e.toString());
+                    break;
                 }
-                mCurrentIntervals++;
-                publishProgress(mCurrentIntervals);
             }
             return (long) mCurrentIntervals;
         }
@@ -124,13 +144,29 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
-            String interval = Integer.toString(values[0]);
-            Log.d(LOG_TAG, "onProgressUpdate: " + interval);
+            int interval = values[0];
+            String strInterval = Integer.toString(interval);
+            Log.d(LOG_TAG, "onProgressUpdate: " + strInterval);
 
             // update view w/ current interval
             ViewHolder viewHolder = (ViewHolder) rootView.getTag();
-            viewHolder.intervals.setText(interval);
+
+            // intervals
+            if (mCurrentSeconds % mTimer.getIntervalSeconds().getRawSeconds() == 0) {
+                mCurrentIntervals++;
+                viewHolder.intervals.setText(Integer.toString(mCurrentIntervals));
+            }
+
+            // hour/min/sec timer
+            if (mCurrentSeconds <= mTimer.getTimerSeconds().getRawSeconds()) {
+                viewHolder.timerSeconds.setText(String.format("%02d", mCurrentSeconds % 60));
+                if (mCurrentSeconds >= 60) {
+                    viewHolder.timerMinutes.setText(String.format("%02d", mCurrentSeconds / 60));
+                    viewHolder.timerHours.setText(String.format("%02d", mCurrentSeconds / 3600));
+                }
+            }
         }
+
 
         @Override
         protected void onPostExecute(Long aLong) {

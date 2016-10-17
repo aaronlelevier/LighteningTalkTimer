@@ -13,15 +13,17 @@ import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
 public class TimerAdapter extends CursorAdapter {
 
-    public TimerAdapter(Context context, Cursor c, int flags) {
+    TimerAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
-    public static class ViewHolder {
-        public final TextView timerText;
-        public final TextView intervalText;
+    static class ViewHolder {
+        final TextView idText;
+        final TextView timerText;
+        final TextView intervalText;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
+            idText = (TextView) view.findViewById(R.id.list_timer_id);
             timerText = (TextView) view.findViewById(R.id.list_timer_text);
             intervalText = (TextView) view.findViewById(R.id.list_interval_text);
         }
@@ -38,6 +40,7 @@ public class TimerAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
+        viewHolder.idText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ID)));
         viewHolder.timerText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER)));
         viewHolder.intervalText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL)));
     }
