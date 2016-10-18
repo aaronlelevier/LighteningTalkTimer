@@ -90,6 +90,12 @@ public class    Timer implements Parcelable {
         return contentValues;
     }
 
+    public String getIntervalsStr() {
+        if (getIntervals() == 1)
+            return Integer.toString(getIntervals()) + " alert";
+        return Integer.toString(getIntervals()) + " alerts";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

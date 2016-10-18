@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
+import com.emijit.lighteningtalktimer.data.Timer;
 
 public class TimerAdapter extends CursorAdapter {
 
@@ -40,8 +40,9 @@ public class TimerAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.numberOfIntervalsText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_INTERVALS)));
-        viewHolder.timerText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_ADD_TIMER)));
-        viewHolder.intervalText.setText(cursor.getString(cursor.getColumnIndex(TimerEntry.COLUMN_SET_INTERVAL)));
+        Timer timer = new Timer(cursor);
+        viewHolder.numberOfIntervalsText.setText(timer.getIntervalsStr());
+        viewHolder.timerText.setText(timer.getTimerSeconds().getFormattedTime());
+        viewHolder.intervalText.setText(timer.getIntervalSeconds().getFormattedTime());
     }
 }

@@ -175,6 +175,7 @@ public class SecondsTest {
     public void rawSeconds() {
         String secondsStr = "010500";
         Seconds seconds = new Seconds(secondsStr);
+        assertEquals(secondsStr, seconds.getStrValue());
         assertEquals(Arrays.asList(0, 1, 0, 5, 0, 0), seconds);
 
         assertEquals(0, seconds.getRawSeconds());
@@ -183,5 +184,26 @@ public class SecondsTest {
 
         // 3600 sec for 1 hour + 300 sec for 1 minute
         assertEquals(3600+300, seconds.getRawSeconds());
+    }
+
+    // formatting time for list view
+
+    @Test
+    public void formattedTime() {
+        Seconds seconds;
+        // hours
+        String hourStr = "010000";
+        seconds = new Seconds(hourStr);
+        assertEquals("01:00:00 hour", seconds.getFormattedTime());
+
+        // minutes
+        String minStr = "003000";
+        seconds = new Seconds(minStr);
+        assertEquals("30:00 min", seconds.getFormattedTime());
+
+        // sec
+        String secStr = "000010";
+        seconds = new Seconds(secStr);
+        assertEquals("10 sec", seconds.getFormattedTime());
     }
 }

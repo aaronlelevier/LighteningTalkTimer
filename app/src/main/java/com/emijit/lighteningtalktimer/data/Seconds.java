@@ -19,6 +19,8 @@ public class Seconds extends LinkedList<Integer> {
     }
 
     public Seconds(String s) {
+        mStrValue = s;
+
         String[] arr = s.split("");
         for (String a:arr) {
             try {
@@ -104,5 +106,61 @@ public class Seconds extends LinkedList<Integer> {
         sb.append(String.format("%02d", min));
         sb.append(String.format("%02d", sec));
         return sb.toString();
+    }
+
+    public String getFormattedTime() {
+        StringBuilder sb = new StringBuilder();
+        boolean hasTime = false;
+        TimeUnits timeUnits = new TimeUnits(TimeUnitsEnum.DEFAULT);
+
+        if (!getHours().equals("00")) {
+            timeUnits = new TimeUnits(TimeUnitsEnum.HOUR);
+            hasTime = true;
+            sb.append(getHours());
+            sb.append(":");
+        }
+        if (hasTime || !getMinutes().equals("00")) {
+            if (!hasTime)
+                timeUnits = new TimeUnits(TimeUnitsEnum.MIN);
+            hasTime = true;
+            sb.append(getMinutes());
+            sb.append(":");
+        }
+        if (hasTime || !getSeconds().equals("00")) {
+            if (!hasTime)
+                timeUnits = new TimeUnits(TimeUnitsEnum.SEC);
+            sb.append(getSeconds());
+        }
+
+        // time units should be at the end of the string value
+        sb.append(timeUnits.getUnits());
+
+        return sb.toString();
+    }
+
+    private enum TimeUnitsEnum {
+        HOUR, MIN, SEC, DEFAULT
+    }
+
+    private class TimeUnits {
+
+        TimeUnitsEnum units;
+
+        private TimeUnits(TimeUnitsEnum units) {
+            this.units = units;
+        }
+
+        private String getUnits() {
+            switch (units) {
+                case HOUR:
+                    return " hour";
+                case MIN:
+                    return " min";
+                case SEC:
+                    return " sec";
+                default:
+                    return "";
+            }
+        }
     }
 }

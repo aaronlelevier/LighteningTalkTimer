@@ -99,4 +99,26 @@ public class TimerTest {
 
         assertEquals(5, timer.getIntervals());
     }
+
+    @Test
+    public void getIntervalsStr() {
+        Timer timer = new Timer();
+
+        // singular
+        timer.getTimerSeconds().addTimerItem(1);
+        timer.getIntervalSeconds().addTimerItem(1);
+        timer.setIntervals();
+        assertEquals(1, timer.getIntervals());
+
+        assertEquals("1 alert", timer.getIntervalsStr());
+
+        // plural
+        timer = new Timer();
+        timer.getTimerSeconds().addTimerItem(2);
+        timer.getIntervalSeconds().addTimerItem(1);
+        timer.setIntervals();
+        assertEquals(2, timer.getIntervals());
+
+        assertEquals("2 alerts", timer.getIntervalsStr());
+    }
 }

@@ -111,7 +111,9 @@ public class RunTimerFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onPause() {
         super.onPause();
-        mRunTimerTask.cancel(true);
+        if (mRunTimerTask != null) {
+            mRunTimerTask.cancel(true);
+        }
     }
 
     private class RunTimerTask extends AsyncTask<Timer, Integer, Long> {
