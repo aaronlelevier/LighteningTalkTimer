@@ -4,11 +4,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 
@@ -16,6 +16,10 @@ import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
  * A placeholder fragment containing a simple view.
  */
 public class TimersFragment extends Fragment {
+
+    RecyclerView mRecyclerView;
+    LinearLayoutManager mLayoutManager;
+    Cursor mCursor;
 
     public TimersFragment() {
     }
@@ -30,7 +34,7 @@ public class TimersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        Cursor cursor = getActivity().getContentResolver().query(
+        mCursor = getActivity().getContentResolver().query(
                 TimerEntry.CONTENT_URI,
                 null,
                 null,
@@ -38,20 +42,36 @@ public class TimersFragment extends Fragment {
                 null,
                 null
         );
-        final TimerAdapter adapter = new TimerAdapter(getActivity(), cursor, 0);
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_timers);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long rowId) {
-                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                if (cursor != null) {
-                    ((Callback) getActivity())
-                            .onItemSelected(TimerEntry.buildTimerItem(rowId));
-                }
-            }
-        });
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_timers);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        final TimerAdapter adapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
+        mRecyclerView.setAdapter(adapter);
 
         return rootView;
     }
+
+    public interface TimerItemListener {
+
+        void onTimerClicked(int position);
+    }
+
+    TimerItemListener mItemListener = new TimerItemListener() {
+        @Override
+        public void onTimerClicked(int position) {
+            if (mCursor != null) {
+                mCursor.moveToPosition(position);
+                ((Callback) getActivity())
+                        .onItemSelected(TimerEntry.buildTimerItem(
+                                mCursor.getLong(mCursor.getColumnIndex(TimerEntry.COLUMN_ID))));
+            }
+        }
+    };
 }
