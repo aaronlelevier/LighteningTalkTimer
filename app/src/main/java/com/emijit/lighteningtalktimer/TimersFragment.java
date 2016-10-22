@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class TimersFragment extends Fragment {
     RecyclerView mRecyclerView;
     LinearLayoutManager mLayoutManager;
     Cursor mCursor;
+    TimerAdapter mTimerAdapter;
 
     public TimersFragment() {
     }
@@ -34,14 +36,8 @@ public class TimersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mCursor = getActivity().getContentResolver().query(
-                TimerEntry.CONTENT_URI,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        mCursor = getCursor();
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_timers);
 
         // use this setting to improve performance if you know that changes
@@ -52,10 +48,21 @@ public class TimersFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final TimerAdapter adapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
-        mRecyclerView.setAdapter(adapter);
+        mTimerAdapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
+        mRecyclerView.setAdapter(mTimerAdapter);
 
         return rootView;
+    }
+
+    private Cursor getCursor() {
+        return getActivity().getContentResolver().query(
+                TimerEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
     public interface TimerItemListener {
@@ -68,9 +75,14 @@ public class TimersFragment extends Fragment {
         public void onTimerClicked(int position) {
             if (mCursor != null) {
                 mCursor.moveToPosition(position);
-                ((Callback) getActivity())
-                        .onItemSelected(TimerEntry.buildTimerItem(
-                                mCursor.getLong(mCursor.getColumnIndex(TimerEntry.COLUMN_ID))));
+                long rowId = mCursor.getLong(mCursor.getColumnIndex(TimerEntry.COLUMN_ID));
+
+                getActivity().getContentResolver().delete(TimerEntry.buildTimerItem(rowId), null, null);
+                mTimerAdapter.swapCursor(getCursor());
+
+                // NOTE: "go to detail" onClick temporarily removed to try "delete on click"
+//                ((Callback) getActivity())
+//                        .onItemSelected(TimerEntry.buildTimerItem(rowId));
             }
         }
     };

@@ -29,10 +29,12 @@ public class TimerAdapter extends CursorRecyclerViewAdapter<TimerAdapter.ViewHol
         final TextView intervalText;
 
         private TimersFragment.TimerItemListener mItemListener;
+        private NotifyChange mNotifyChange;
 
-        ViewHolder(View view, TimersFragment.TimerItemListener listener) {
+        ViewHolder(View view, TimersFragment.TimerItemListener listener, NotifyChange notifyChange) {
             super(view);
             mItemListener = listener;
+            mNotifyChange = notifyChange;
             view.setOnClickListener(this);
             numberOfIntervalsText = (TextView) view.findViewById(R.id.list_number_of_intervals_text);
             timerText = (TextView) view.findViewById(R.id.list_timer_text);
@@ -44,13 +46,27 @@ public class TimerAdapter extends CursorRecyclerViewAdapter<TimerAdapter.ViewHol
             Log.d(LOG_TAG, "ViewHolder.onClick");
             int position = getAdapterPosition();
             mItemListener.onTimerClicked(position);
+            // if User is quick enough, they could click a view 2x, so that's why this "if" check is here
+            if (position != RecyclerView.NO_POSITION) {
+                mNotifyChange.remove(position);
+            }
         }
     }
+
+    public interface NotifyChange {
+        void remove(int position);
+    }
+    NotifyChange mNotifyChange = new NotifyChange() {
+        @Override
+        public void remove(int position) {
+            notifyItemRemoved(position);
+        }
+    };
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_timer_item, parent, false);
-        ViewHolder vh = new ViewHolder(view, mItemListener);
+        ViewHolder vh = new ViewHolder(view, mItemListener, mNotifyChange);
         return vh;
     }
 

@@ -1,6 +1,7 @@
 package com.emijit.lighteningtalktimer.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -108,6 +109,13 @@ public class TimerProvider extends ContentProvider {
                         TimerEntry.TABLE_NAME,
                         selection,
                         selectionArgs
+                );
+                break;
+            case TIMER_ITEM:
+                rowsDeleted = mTimerDbHelper.getWritableDatabase().delete(
+                        TimerEntry.TABLE_NAME,
+                        TimerEntry.COLUMN_ID + " = ?",
+                        new String[] { Long.toString(ContentUris.parseId(uri)) }
                 );
                 break;
             default:

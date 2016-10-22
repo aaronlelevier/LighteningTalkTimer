@@ -131,6 +131,44 @@ public class TimerProviderTest {
         mContext.getContentResolver().unregisterContentObserver(tco);
     }
 
+    @Test
+    public void testDeleteSingle() {
+        testInsert();
+
+        cursor = mContext.getContentResolver().query(
+                TimerEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assertTrue(cursor != null);
+        assertEquals(1, cursor.getCount());
+
+        // get and store rowId of this record
+        cursor.moveToFirst();
+        long rowId = cursor.getLong(cursor.getColumnIndex(TimerEntry.COLUMN_ID));
+
+        int rowsDeleted = mContext.getContentResolver().delete(
+                TimerEntry.buildTimerItem(rowId),
+                null,
+                null
+        );
+        assertEquals(1, rowsDeleted);
+
+        cursor = mContext.getContentResolver().query(
+                TimerEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assertTrue(cursor != null);
+        assertEquals(0, cursor.getCount());
+    }
+
     public void deleteAllRecords() {
         mContext.getContentResolver().delete(TimerEntry.CONTENT_URI, null, null);
         cursor = mContext.getContentResolver().query(
