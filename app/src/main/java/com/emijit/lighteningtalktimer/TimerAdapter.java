@@ -11,24 +11,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.emijit.lighteningtalktimer.data.Timer;
-import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
+import com.emijit.lighteningtalktimer.data.TimerContract;
+import com.emijit.lighteningtalktimer.data.TimerUtils;
 import com.emijit.lighteningtalktimer.helper.ItemTouchHelperAdapter;
 import com.emijit.lighteningtalktimer.helper.ItemTouchHelperViewHolder;
 
-public class TimerAdapter extends CursorRecyclerViewAdapter<TimerAdapter.ViewHolder>
-    implements ItemTouchHelperAdapter{
+import java.util.List;
+
+public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.ViewHolder>
+    implements ItemTouchHelperAdapter {
 
     private final static String LOG_TAG = TimerAdapter.class.getSimpleName();
 
     private Context mContext;
     private Cursor mCursor;
     private TimersFragment.TimerItemListener mItemListener;
+    private List<Timer> mTimers;
 
     public TimerAdapter(Context context, Cursor cursor, TimersFragment.TimerItemListener listener) {
-        super(context, cursor);
         mContext = context;
         mCursor = cursor;
         mItemListener = listener;
+        mTimers = TimerUtils.createTimerList(cursor);
     }
 
     @Override
@@ -39,24 +43,33 @@ public class TimerAdapter extends CursorRecyclerViewAdapter<TimerAdapter.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
-        Timer timer = new Timer(cursor);
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        Timer timer = mTimers.get(position);
         viewHolder.numberOfIntervalsText.setText(timer.getIntervalsStr());
         viewHolder.timerText.setText(timer.getTimerSeconds().getFormattedTime());
         viewHolder.intervalText.setText(timer.getIntervalSeconds().getFormattedTime());
     }
 
     @Override
-    public void onItemMove(int fromPosition, int toPosition) {
+    public int getItemCount() {
+        return mTimers.size();
+    }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Timer prev = mTimers.remove(fromPosition);
+        mTimers.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position) {
-        long rowId = mCursor.getLong(mCursor.getColumnIndex(TimerEntry.COLUMN_ID));
-        mContext.getContentResolver().delete(TimerEntry.buildTimerItem(rowId), null, null);
-        this.swapCursor(getCursor());
+        mCursor.moveToPosition(position);
+        long rowId = mCursor.getLong(mCursor.getColumnIndex(TimerContract.TimerEntry.COLUMN_ID));
+        mContext.getContentResolver().delete(TimerContract.TimerEntry.buildTimerItem(rowId), null, null);
+        mTimers.remove(position);
         notifyItemChanged(position);
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder

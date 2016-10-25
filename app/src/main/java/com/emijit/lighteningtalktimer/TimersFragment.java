@@ -33,30 +33,6 @@ public class TimersFragment extends Fragment {
         void onItemSelected(Uri uri);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//
-//        mCursor = getCursor();
-//
-//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_timers);
-//
-//        // use this setting to improve performance if you know that changes
-//        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        // use a linear layout manager
-//        mLayoutManager = new LinearLayoutManager(getContext());
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//        mTimerAdapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
-//        mRecyclerView.setAdapter(mTimerAdapter);
-//
-//        return rootView;
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,7 +56,6 @@ public class TimersFragment extends Fragment {
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
-
 
     private Cursor getCursor() {
         return getActivity().getContentResolver().query(

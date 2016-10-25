@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -207,5 +208,24 @@ public class TimerProviderTest {
         assertEquals(5*3600, timer.getTimerSeconds().getRawSeconds());
         assertEquals(1*3600, timer.getIntervalSeconds().getRawSeconds());
         assertEquals(5, timer.getIntervals());
+    }
+
+    @Test
+    public void createTimerList() {
+        testInsert();
+        cursor = mContext.getContentResolver().query(
+                TimerEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        assertTrue(cursor != null);
+        assertEquals(1, cursor.getCount());
+
+        List<Timer> mTimers = TimerUtils.createTimerList(cursor);
+
+        assertEquals(1, mTimers.size());
     }
 }
