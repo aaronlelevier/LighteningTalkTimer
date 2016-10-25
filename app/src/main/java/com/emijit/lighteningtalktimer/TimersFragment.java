@@ -3,15 +3,17 @@ package com.emijit.lighteningtalktimer;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
+import com.emijit.lighteningtalktimer.helper.SimpleItemTouchHelperCallback;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -19,9 +21,9 @@ import com.emijit.lighteningtalktimer.data.TimerContract.TimerEntry;
 public class TimersFragment extends Fragment {
 
     RecyclerView mRecyclerView;
-    LinearLayoutManager mLayoutManager;
     Cursor mCursor;
     TimerAdapter mTimerAdapter;
+    ItemTouchHelper mItemTouchHelper;
 
     public TimersFragment() {
     }
@@ -31,28 +33,54 @@ public class TimersFragment extends Fragment {
         void onItemSelected(Uri uri);
     }
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+//
+//        mCursor = getCursor();
+//
+//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_timers);
+//
+//        // use this setting to improve performance if you know that changes
+//        // in content do not change the layout size of the RecyclerView
+//        mRecyclerView.setHasFixedSize(true);
+//
+//        // use a linear layout manager
+//        mLayoutManager = new LinearLayoutManager(getContext());
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//
+//        mTimerAdapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
+//        mRecyclerView.setAdapter(mTimerAdapter);
+//
+//        return rootView;
+//    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mCursor = getCursor();
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.listview_timers);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
         mTimerAdapter = new TimerAdapter(getActivity(), mCursor, mItemListener);
-        mRecyclerView.setAdapter(mTimerAdapter);
 
-        return rootView;
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.listview_timers);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mTimerAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mTimerAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
+
 
     private Cursor getCursor() {
         return getActivity().getContentResolver().query(
@@ -77,12 +105,8 @@ public class TimersFragment extends Fragment {
                 mCursor.moveToPosition(position);
                 long rowId = mCursor.getLong(mCursor.getColumnIndex(TimerEntry.COLUMN_ID));
 
-                getActivity().getContentResolver().delete(TimerEntry.buildTimerItem(rowId), null, null);
-                mTimerAdapter.swapCursor(getCursor());
-
-                // NOTE: "go to detail" onClick temporarily removed to try "delete on click"
-//                ((Callback) getActivity())
-//                        .onItemSelected(TimerEntry.buildTimerItem(rowId));
+                ((Callback) getActivity())
+                        .onItemSelected(TimerEntry.buildTimerItem(rowId));
             }
         }
     };
